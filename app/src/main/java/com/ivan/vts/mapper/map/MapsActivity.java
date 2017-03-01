@@ -68,12 +68,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
                         .setTitleText("Account name")
                         .setContentText("Application requires Google account.")
                         .setConfirmText("Exit application")
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                sDialog.dismissWithAnimation();
-                            }
-                        })
+                        .setConfirmClickListener(sDialog -> sDialog.dismissWithAnimation())
                         .show();
                 exitApplication();
             }
