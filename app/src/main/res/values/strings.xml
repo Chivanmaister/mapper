@@ -1,0 +1,9 @@
+<resources>
+    <!-- Application name-->
+    <string name="app_name" translatable="false">Mapper</string>
+    <string name="title_activity_maps" translatable="false">Mapper</string>
+    <string name="action_settings">Setting</string>
+    <string name="navigation">Navigation</string>
+    <string name="history">History</string>
+
+</resources>
