@@ -1,4 +1,4 @@
-package com.ivan.vts.mapper.settings;
+package com.ivan.vts.mapper.settings.helper;
 
 import android.content.Context;
 import android.view.MenuItem;

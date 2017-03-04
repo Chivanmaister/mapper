@@ -89,7 +89,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return com.ivan.vts.mapper.settings.Settings.getInstance().helloWorld(this, item);
+        return com.ivan.vts.mapper.settings.helper.Settings.getInstance().helloWorld(this, item);
     }
 
     @Override
