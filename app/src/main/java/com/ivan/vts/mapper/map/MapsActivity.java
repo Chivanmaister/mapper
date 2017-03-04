@@ -1,48 +1,40 @@
 package com.ivan.vts.mapper.map;
 
-import android.Manifest;
 import android.accounts.AccountManager;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.games.internal.PopupManager;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.plus.Account;
-import com.google.gson.Gson;
 import com.ivan.vts.mapper.R;
-
+import com.ivan.vts.mapper.settings.helper.Settings;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MapsActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback, LocationListener {
@@ -53,6 +45,12 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
     GoogleMap mGoogleMap;
     SupportMapFragment mFragment;
     Marker currLocationMarker;
+    public static final String url = "https://maps.googleapis.com/maps/api/directions/json?";
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +76,9 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
 
         mFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mFragment.getMapAsync(this);
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -89,7 +90,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return com.ivan.vts.mapper.settings.helper.Settings.getInstance().helloWorld(this, item);
+        return Settings.getInstance().helloWorld(this, item);
     }
 
     @Override
@@ -97,7 +98,8 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
         mGoogleMap = gMap;
         try {
             mGoogleMap.setMyLocationEnabled(true);
-        } catch (SecurityException e) {}
+        } catch (SecurityException e) {
+        }
 
         buildGoogleApiClient();
 
@@ -117,9 +119,10 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
     public void onConnected(Bundle bundle) {
         Location mLastLocation = null;
 
-        try{
-             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        } catch (SecurityException e) {}
+        try {
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        } catch (SecurityException e) {
+        }
 
         if (mLastLocation != null) {
             //place marker at current position
@@ -133,9 +136,10 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         //mLocationRequest.setSmallestDisplacement(0.1F); //1/10 meter
 
-        try{
+        try {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        } catch (SecurityException e) {}
+        } catch (SecurityException e) {
+        }
 
         PolylineOptions rectOptions = new PolylineOptions()
 //                .color(R.color.colorMenuItems)
@@ -154,10 +158,27 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
 //        mapIntent.setPackage("com.google.android.apps.maps");
 
 //        startActivity(mapIntent);
+
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
+        Location finalMLastLocation = mLastLocation;
+
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+
+            }
+
+            @Override
+            public void onError(Status status) {
+            }
+        });
     }
 
     @Override
     public void onConnectionSuspended(int i) {
+
     }
 
     @Override
@@ -185,5 +206,41 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
     private void exitApplication() {
         this.finish();
         System.exit(0);
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Maps Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
     }
 }
