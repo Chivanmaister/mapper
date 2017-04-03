@@ -12,6 +12,12 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -34,23 +40,25 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.ivan.vts.mapper.R;
-import com.ivan.vts.mapper.settings.helper.Settings;
+import com.ivan.vts.mapper.extended.DefaultAppActivity;
+import com.ivan.vts.mapper.settings.helper.Setting;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class MapsActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback, LocationListener {
+public class MapsActivity extends DefaultAppActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
 
-    LocationRequest mLocationRequest;
-    GoogleApiClient mGoogleApiClient;
-    LatLng latLng;
-    GoogleMap mGoogleMap;
-    SupportMapFragment mFragment;
-    Marker currLocationMarker;
-    public static final String url = "https://maps.googleapis.com/maps/api/directions/json?";
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
+    protected LocationRequest mLocationRequest;
+    protected GoogleApiClient mGoogleApiClient;
+    protected SupportMapFragment mFragment;
+//    protected static final String url = "https://maps.googleapis.com/maps/api/directions/json?";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +68,6 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
 
         try {
             String accountMail = AccountManager.get(getApplicationContext()).getAccountsByType("com.google")[0].name;
-            Toast.makeText(getApplicationContext(), "Account email: " + accountMail, Toast.LENGTH_LONG).show();
             if (accountMail == null || accountMail.isEmpty()) {
                 new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                         .setTitleText("Account name")
@@ -76,9 +83,6 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
 
         mFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mFragment.getMapAsync(this);
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -90,7 +94,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return Settings.getInstance().helloWorld(this, item);
+        return Setting.getInstance().helloWorld(this, item);
     }
 
     @Override
@@ -149,15 +153,8 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
                 .add(new LatLng(37.35, -122.2))  // Same longitude, and 16km to the south
                 .add(new LatLng(37.35, -122.0)); // Closes the polyline.
 
-// Get back the mutable Polyline
+    // Get back the mutable Polyline
         Polyline polyline = mGoogleMap.addPolyline(rectOptions);
-
-
-//        Uri gmmIntentUri = Uri.parse("google.navigation:q=Brace+Radica+80+Subotica");
-//        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-//        mapIntent.setPackage("com.google.android.apps.maps");
-
-//        startActivity(mapIntent);
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
@@ -185,62 +182,18 @@ public class MapsActivity extends AppCompatActivity implements GoogleApiClient.C
     public void onConnectionFailed(ConnectionResult connectionResult) {
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-
-        //place marker at current position
-        //mGoogleMap.clear();
-        if (currLocationMarker != null) {
-            currLocationMarker.remove();
-        }
-        latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-        //zoom to current position:
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(latLng).zoom(14).build();
-
-        mGoogleMap.animateCamera(CameraUpdateFactory
-                .newCameraPosition(cameraPosition));
-    }
-
     private void exitApplication() {
         this.finish();
         System.exit(0);
     }
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("Maps Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
-    }
-
     @Override
     public void onStart() {
         super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
 
     @Override
     public void onStop() {
         super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
     }
 }

@@ -13,17 +13,15 @@ import com.ivan.vts.mapper.R;
  * 18/2/2017.
  */
 
-public class Settings {
+public class Setting {
 
-    MenuItem menuItem;
+    private static Setting setting = new Setting();
 
-    private static Settings settings = new Settings();
-
-    private Settings() {
+    private Setting() {
     }
 
-    public static Settings getInstance() {
-        return settings;
+    public static Setting getInstance() {
+        return setting;
     }
 
     public boolean helloWorld(Context context, MenuItem menuItem) {
