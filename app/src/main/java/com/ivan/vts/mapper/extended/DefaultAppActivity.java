@@ -2,6 +2,7 @@ package com.ivan.vts.mapper.extended;
 
 import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;

@@ -42,6 +42,8 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.ivan.vts.mapper.R;
 import com.ivan.vts.mapper.extended.DefaultAppActivity;
 import com.ivan.vts.mapper.extended.DefaultGoogleApiClient;
+import com.ivan.vts.mapper.extended.GsonParser;
+import com.ivan.vts.mapper.extended.Route;
 import com.ivan.vts.mapper.settings.helper.Setting;
 
 import java.io.BufferedInputStream;
@@ -59,10 +61,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCallback {
 
-
-
     protected SupportMapFragment mFragment;
-//    protected static final String url = "https://maps.googleapis.com/maps/api/directions/json?";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,22 +86,6 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
 
         mFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mFragment.getMapAsync(this);
-
-        //Get json from Google Map Api
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        String url = "https://maps.googleapis.com/maps/api/directions/json?origin=Subotica&destination=Belgrade";
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-        queue.add(request);
     }
 
     @Override

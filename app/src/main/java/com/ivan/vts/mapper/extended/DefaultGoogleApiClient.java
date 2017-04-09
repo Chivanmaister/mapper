@@ -4,7 +4,15 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
@@ -18,18 +26,25 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.ivan.vts.mapper.R;
 
+import java.util.Objects;
+
 /**
  * Created by Chiefster on 3/4/2017.
  */
 
 public class DefaultGoogleApiClient extends DefaultAppActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    protected LocationRequest mLocationRequest;
-    protected GoogleApiClient mGoogleApiClient;
+    protected   LocationRequest mLocationRequest;
+    protected   GoogleApiClient mGoogleApiClient;
+    protected   Route           route;
+    protected   Polyline        polyline;
+    protected static String     url = "https://maps.googleapis.com/maps/api/directions/json?";
+    protected PolylineOptions rectOptions;
+    protected Location mLastLocation;
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Location mLastLocation = null;
+        mLastLocation = null;
 
         try {
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
@@ -53,26 +68,15 @@ public class DefaultGoogleApiClient extends DefaultAppActivity implements Google
         } catch (SecurityException e) {
         }
 
-        PolylineOptions rectOptions = new PolylineOptions()
-//                .color(R.color.colorMenuItems)
-                .add(new LatLng(37.35, -122.0))
-                .add(new LatLng(37.45, -122.0))  // North of the previous point, but at the same longitude
-                .add(new LatLng(37.45, -122.2))  // Same latitude, and 30km to the west
-                .add(new LatLng(37.35, -122.2))  // Same longitude, and 16km to the south
-                .add(new LatLng(37.35, -122.0)); // Closes the polyline.
-
-        // Get back the mutable Polyline
-        Polyline polyline = mGoogleMap.addPolyline(rectOptions);
-
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-
-        Location finalMLastLocation = mLastLocation;
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-
+                String googleUrl = url + "origin=" + latLng.latitude + "," + latLng.longitude;
+                googleUrl += "&destination=" + place.getLatLng().latitude + "," + place.getLatLng().longitude;
+                googleApiResponse(googleUrl);
             }
 
             @Override
@@ -88,6 +92,34 @@ public class DefaultGoogleApiClient extends DefaultAppActivity implements Google
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    }
 
+    public void googleApiResponse(String googleApiUrl) {
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest request = new StringRequest(Request.Method.GET, googleApiUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                route = GsonParser.getInstance().parseRoute(response);
+                if (route.getStatus().equals("OK"))
+                    createPolylineDirection(route);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(request);
+    }
+
+    public void createPolylineDirection(Route route) {
+        rectOptions = new PolylineOptions();
+        rectOptions.add(latLng);
+        for (LatLng latLng : route.getEndLocation()) {
+            rectOptions.add(latLng);
+        }
+
+        // Get back the mutable Polyline
+         polyline = mGoogleMap.addPolyline(rectOptions);
     }
 }
