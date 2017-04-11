@@ -1,9 +1,11 @@
 package com.ivan.vts.mapper.extended;
 
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,6 +25,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.ivan.vts.mapper.R;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Chiefster on 3/4/2017.
@@ -64,6 +68,7 @@ public class DefaultGoogleApiClient extends DefaultAppActivity implements Google
         } catch (SecurityException e) {
         }
 
+        //fragment for place selection
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
@@ -72,7 +77,20 @@ public class DefaultGoogleApiClient extends DefaultAppActivity implements Google
             public void onPlaceSelected(Place place) {
                 String googleUrl = url + "origin=" + latLng.latitude + "," + latLng.longitude;
                 googleUrl += "&destination=" + place.getLatLng().latitude + "," + place.getLatLng().longitude;
-                //TODO implement DataTransfer.class
+                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                StringRequest request = new StringRequest(Request.Method.GET, googleUrl, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        route = GsonParser.getInstance().parseRoute(response);
+                        createPolylineDirection(route);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+                queue.add(request);
             }
 
             @Override

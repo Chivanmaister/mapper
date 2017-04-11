@@ -1,6 +1,9 @@
 package com.ivan.vts.mapper.extended;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -15,6 +18,7 @@ import com.android.volley.toolbox.Volley;
  */
 
 public class DataTransfer {
+
     private Route route;
     private Road road;
 
@@ -24,6 +28,7 @@ public class DataTransfer {
             @Override
             public void onResponse(String response) {
                 route = GsonParser.getInstance().parseRoute(response);
+                Log.d(route.getStatus(), "status");
             }
         }, new Response.ErrorListener() {
             @Override
