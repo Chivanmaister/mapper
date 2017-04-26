@@ -1,17 +1,15 @@
 package com.ivan.vts.mapper.extended;
 
-import android.animation.ObjectAnimator;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.Toast;
+import org.apache.commons.io.IOUtils;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by Chiefster on 10/4/2017.
@@ -19,41 +17,30 @@ import com.android.volley.toolbox.Volley;
 
 public class DataTransfer {
 
-    private Route route;
-    private Road road;
+//    private String dataString;
+//    private URLConnection connection;
+//    private String url;
+//
+//    public DataTransfer(String url) {
+//        this.url = url;
+//    }
+//
+//    public String getResponse() {
+//
+//        BufferedInputStream stream;
+//        try {
+//            URL httpUrl = new URL(url);
+//            connection = httpUrl.openConnection();
+//            stream = new BufferedInputStream(connection.getInputStream());
+//            dataString = IOUtils.toString(stream, "UTF-8");
+//
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return dataString;
+//    }
 
-    public Route googleApiResponseToRoute(Context context, Integer method, String url) {
-        RequestQueue queue = Volley.newRequestQueue(context);
-        StringRequest request = new StringRequest(method, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                route = GsonParser.getInstance().parseRoute(response);
-                Log.d(route.getStatus(), "status");
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-        queue.add(request);
-        return route;
-    }
 
-    public Road googleApiResponseToRoad(Context context, Integer method, String url) {
-        RequestQueue queue = Volley.newRequestQueue(context);
-        StringRequest request = new StringRequest(method, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                road = GsonParser.getInstance().parseRoad(response);
-            }
-        }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
-                }
-        });
-        queue.add(request);
-        return road;
-    }
 }

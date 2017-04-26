@@ -1,11 +1,12 @@
 package com.ivan.vts.mapper;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.PolyUtil;
 import com.ivan.vts.mapper.extended.GsonParser;
 import com.ivan.vts.mapper.extended.Route;
 
 import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -361,11 +362,23 @@ public class ExampleUnitTest {
             "   ],\n" +
             "   \"status\" : \"OK\"\n" +
             "}\n";
+
     @Test
     public void testJsonParser() throws Exception {
         Route route = GsonParser.getInstance().parseRoute(json);
         assertEquals("OK", route.getStatus());
         assertTrue(route.getStartLocation().size() > 0);
         assertTrue(route.getEndLocation().size() > 0);
+        assertNotNull(route.getPoint());
+        System.out.print(route.getPoint());
+    }
+
+    @Test
+    public void testDecodePolyline() throws Exception {
+        Route route = GsonParser.getInstance().parseRoute(json);
+        route.setPoints(PolyUtil.decode(route.getPoint()));
+        for (LatLng latLng : route.getPoints()) {
+            System.out.println(latLng.latitude + " " + latLng.longitude);
+        }
     }
 }

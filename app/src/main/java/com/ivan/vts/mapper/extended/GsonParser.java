@@ -26,6 +26,7 @@ public class GsonParser {
         List<LatLng> endList = new ArrayList<>();
         Map<String, Object> jsonMap = new Gson().fromJson(json, Map.class);
         Map<String, Object> routes = (Map<String, Object>) ((ArrayList) jsonMap.get("routes")).get(0);
+        Map<String, Object> overviewPolyline = (Map<String, Object>) routes.get("overview_polyline");
         Map<String, ArrayList> steps = (Map<String, ArrayList>) ((ArrayList) routes.get("legs")).get(0);
         for (Object step : steps.get("steps")) {
             Map<String, Object> startLocation = (Map<String, Object>) ((Map<String, Object>) step).get("start_location");
@@ -41,6 +42,8 @@ public class GsonParser {
         route.setStatus((String) jsonMap.get("status"));
         route.setStartLocation(startList);
         route.setEndLocation(endList);
+        route.setPoint((String) overviewPolyline.get("points"));
+
         return route;
     }
 
