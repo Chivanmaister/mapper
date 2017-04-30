@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
@@ -28,10 +29,11 @@ import java.util.Arrays;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCallback {
+public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCallback, View.OnClickListener {
 
     protected SupportMapFragment mFragment;
     protected static String     url = "https://maps.googleapis.com/maps/api/directions/json?";
+    private Button clearButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,11 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
 
         mFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mFragment.getMapAsync(this);
-//        getBundle();
+
+        clearButton = (Button) findViewById(R.id.clear);
+        clearButton.setOnClickListener(this);
+        clearButton.setClickable(false);
+        clearButton.setVisibility(View.GONE);
     }
 
     @Override
@@ -81,6 +87,8 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
     private void getBundle(Intent intent) {
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
+            clearButton.setClickable(true);
+            clearButton.setVisibility(View.VISIBLE);
             String googleUrl = url + "origin=" + latLng.latitude + "," + latLng.longitude;
             googleUrl += "&destination=" + bundle.getDouble(Constants.LAT) + "," + bundle.getDouble(Constants.LNG);
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
@@ -135,5 +143,12 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
     @Override
     public void onStop() {
         super.onStop();
+    }
+
+    @Override
+    public void onClick(View v) {
+        mGoogleMap.clear();
+        clearButton.setClickable(false);
+        clearButton.setVisibility(View.GONE);
     }
 }

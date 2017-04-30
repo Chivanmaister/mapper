@@ -46,9 +46,4 @@ public class GsonParser {
 
         return route;
     }
-
-    public Road parseRoad(String json) {
-        Map<String, Object> jsonMap = new Gson().fromJson(json, Map.class);
-        return null;
-    }
 }
