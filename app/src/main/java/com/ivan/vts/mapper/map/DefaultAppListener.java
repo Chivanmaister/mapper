@@ -2,21 +2,13 @@ package com.ivan.vts.mapper.map;
 
 import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.ivan.vts.mapper.extended.GsonParser;
 import com.ivan.vts.mapper.extended.Route;
 
 /**
@@ -43,18 +35,18 @@ public class DefaultAppListener extends AppCompatActivity implements LocationLis
 
         mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        StringRequest request = new StringRequest(Request.Method.POST, mapperUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                route = GsonParser.getInstance().parseRoute(response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "Unable to connect to Mapper server", Toast.LENGTH_SHORT).show();
-            }
-        });
-        queue.add(request);
+//        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+//        StringRequest request = new StringRequest(Request.Method.POST, mapperUrl, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                route = GsonParser.getInstance().parseRoute(response);
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Toast.makeText(getApplicationContext(), "Unable to connect to Mapper server", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        queue.add(request);
     }
 }

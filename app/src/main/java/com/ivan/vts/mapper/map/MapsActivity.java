@@ -60,6 +60,7 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
         mFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mFragment.getMapAsync(this);
 
+
         clearButton = (Button) findViewById(R.id.clear);
         clearButton.setOnClickListener(this);
         clearButton.setClickable(false);
@@ -81,7 +82,7 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return ActivityMenu.getInstance().switchActivity(this, item, null);
+        return ActivityMenu.getInstance().switchActivity(this, item);
     }
 
     private void getBundle(Intent intent) {

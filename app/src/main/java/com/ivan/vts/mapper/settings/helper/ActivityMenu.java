@@ -10,6 +10,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.ivan.vts.mapper.R;
 import com.ivan.vts.mapper.extended.Constants;
 import com.ivan.vts.mapper.navigation.NavigationActivity;
+import com.ivan.vts.mapper.settings.SettingActivity;
 
 /**
  *
@@ -30,15 +31,17 @@ public class ActivityMenu {
         return activityMenu;
     }
 
-    public boolean switchActivity(Activity activityFrom, MenuItem menuItem, Object parameter) {
+    public boolean switchActivity(Activity activityFrom, MenuItem menuItem) {
         int id = menuItem.getItemId();
 
         if (id == R.id.settings) {
-            intent = new Intent(activityFrom, null);
-
+            intent = new Intent(activityFrom, SettingActivity.class);
         }
         if (id == R.id.autocomplete_fragment) {
             intent = new Intent(activityFrom, NavigationActivity.class);
+        }
+        if (id == R.id.history) {
+            intent = new Intent(activityFrom, null);
         }
         activityFrom.startActivity(intent);
 
