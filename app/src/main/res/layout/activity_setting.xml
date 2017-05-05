@@ -12,7 +12,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <TextView
@@ -24,14 +24,14 @@
                 android:gravity="center_vertical"
                 android:text="Language"
                 android:textSize="16dp"
-                android:background="@drawable/menu"/>
+                android:background="@drawable/setting"/>
 
             <TextView
                 android:id="@+id/colors"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:background="@drawable/menu"
+                android:background="@drawable/setting"
                 android:text="Color" />
 
             <TextView
@@ -39,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:background="@drawable/menu"
+                android:background="@drawable/setting"
                 android:text="Server" />
         </LinearLayout>
     </ScrollView>

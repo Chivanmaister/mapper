@@ -1,7 +1,9 @@
 package com.ivan.vts.mapper.map;
 
 import android.accounts.AccountManager;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,23 +11,26 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.ivan.vts.mapper.R;
 import com.ivan.vts.mapper.extended.Constants;
 import com.ivan.vts.mapper.extended.GsonParser;
 import com.ivan.vts.mapper.settings.helper.ActivityMenu;
 
+import org.apache.commons.io.IOUtils;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Arrays;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -49,9 +54,8 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
                         .setTitleText("Account name")
                         .setContentText("Application requires Google account.")
                         .setConfirmText("Exit application")
-                        .setConfirmClickListener(sDialog -> sDialog.dismissWithAnimation())
+                        .setConfirmClickListener(sDialog -> exitApplication())
                         .show();
-                exitApplication();
             }
         } catch (SecurityException e) {
             exitApplication();
@@ -92,26 +96,15 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
             clearButton.setVisibility(View.VISIBLE);
             String googleUrl = url + "origin=" + latLng.latitude + "," + latLng.longitude;
             googleUrl += "&destination=" + bundle.getDouble(Constants.LAT) + "," + bundle.getDouble(Constants.LNG);
-            RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-            StringRequest request = new StringRequest(Request.Method.GET, googleUrl, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    route = GsonParser.getInstance().parseRoute(response);
-                    createPolylineDirection(route);
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                }
-            });
-            queue.add(request);
+            new AsyncDataTransfer().execute(googleUrl);
         }
     }
 
     @Override
     public void onMapReady(GoogleMap gMap) {
         mGoogleMap = gMap;
+        MapStyleOptions mapOptions = MapStyleOptions.loadRawResourceStyle(this, R.raw.night_style);
+        mGoogleMap.setMapStyle(mapOptions);
         try {
             mGoogleMap.setMyLocationEnabled(true);
         } catch (SecurityException e) {
@@ -151,5 +144,44 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
         mGoogleMap.clear();
         clearButton.setClickable(false);
         clearButton.setVisibility(View.GONE);
+    }
+
+    class AsyncDataTransfer extends AsyncTask<String, Void, String> {
+        ProgressDialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(MapsActivity.this);
+            dialog.setProgress(ProgressDialog.STYLE_SPINNER);
+            dialog.setMessage("Loading route, please wait");
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(false);
+            dialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            HttpsURLConnection connection = null;
+            try {
+                URL url = new URL(params[0]);
+                connection = (HttpsURLConnection) url.openConnection();
+                InputStream inputStream = new BufferedInputStream(connection.getInputStream());
+                return IOUtils.toString(inputStream, "UTF-8");
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (connection != null)
+                    connection.disconnect();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            route = GsonParser.getInstance().parseRoute(result);
+            createPolylineDirection(route);
+            dialog.dismiss();
+        }
+
     }
 }

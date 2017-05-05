@@ -1,7 +1,6 @@
 package com.ivan.vts.mapper.map;
 
 import android.location.Location;
-import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -15,7 +14,7 @@ import com.ivan.vts.mapper.extended.Route;
  * Created by Ivan Marovic on 2/4/2017.
  */
 
-public class DefaultAppListener extends AppCompatActivity implements LocationListener {
+public class DefaultAppListener extends DefaultAppActivity implements LocationListener {
 
     protected Marker currLocationMarker;
     protected static LatLng latLng;

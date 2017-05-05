@@ -1,7 +1,6 @@
 package com.ivan.vts.mapper.navigation;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -13,10 +12,11 @@ import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.ivan.vts.mapper.R;
+import com.ivan.vts.mapper.map.DefaultAppActivity;
 import com.ivan.vts.mapper.map.MapsActivity;
 import com.ivan.vts.mapper.settings.helper.ActivityMenu;
 
-public class NavigationActivity extends AppCompatActivity {
+public class NavigationActivity extends DefaultAppActivity {
 
     LatLng latLng;
 

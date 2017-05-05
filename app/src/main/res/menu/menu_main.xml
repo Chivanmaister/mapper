@@ -7,7 +7,7 @@
     <item android:title="@string/navigation"
         android:id="@+id/autocomplete_fragment"
         android:orderInCategory="1"
-        app:showAsAction="collapseActionView"/>
+        app:showAsAction="collapseActionView" />
 
     <item android:title="@string/history"
         android:id="@+id/history"

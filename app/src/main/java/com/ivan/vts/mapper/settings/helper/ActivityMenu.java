@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import com.google.android.gms.maps.model.LatLng;
 import com.ivan.vts.mapper.R;
 import com.ivan.vts.mapper.extended.Constants;
+import com.ivan.vts.mapper.history.HistoryActivity;
 import com.ivan.vts.mapper.navigation.NavigationActivity;
 import com.ivan.vts.mapper.settings.SettingActivity;
 
@@ -41,7 +42,7 @@ public class ActivityMenu {
             intent = new Intent(activityFrom, NavigationActivity.class);
         }
         if (id == R.id.history) {
-            intent = new Intent(activityFrom, null);
+            intent = new Intent(activityFrom, HistoryActivity.class);
         }
         activityFrom.startActivity(intent);
 
