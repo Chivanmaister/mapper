@@ -75,6 +75,7 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         getBundle(intent);
+        setMapStyle();
     }
 
     @Override
@@ -103,8 +104,7 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
     @Override
     public void onMapReady(GoogleMap gMap) {
         mGoogleMap = gMap;
-        MapStyleOptions mapOptions = MapStyleOptions.loadRawResourceStyle(this, R.raw.night_style);
-        mGoogleMap.setMapStyle(mapOptions);
+        setMapStyle();
         try {
             mGoogleMap.setMyLocationEnabled(true);
         } catch (SecurityException e) {
@@ -146,7 +146,7 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
         clearButton.setVisibility(View.GONE);
     }
 
-    class AsyncDataTransfer extends AsyncTask<String, Void, String> {
+    private class AsyncDataTransfer extends AsyncTask<String, Void, String> {
         ProgressDialog dialog;
 
         @Override
@@ -182,6 +182,17 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
             createPolylineDirection(route);
             dialog.dismiss();
         }
+    }
 
+    private void setMapStyle() {
+        MapStyleOptions mapOptions = null;
+        int mapStyle = preferences.getInt("primaryTheme", 0);
+        if (mapStyle == 0)
+            mapOptions = MapStyleOptions.loadRawResourceStyle(this, R.raw.standard_style);
+        else if (mapStyle == 1)
+            mapOptions = MapStyleOptions.loadRawResourceStyle(this, R.raw.retro_style);
+        else if (mapStyle == 2)
+            mapOptions = MapStyleOptions.loadRawResourceStyle(this, R.raw.night_style);
+        mGoogleMap.setMapStyle(mapOptions);
     }
 }

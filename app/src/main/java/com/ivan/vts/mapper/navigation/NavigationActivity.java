@@ -46,7 +46,7 @@ public class NavigationActivity extends DefaultAppActivity {
                 if (latLng != null) {
                     ActivityMenu.getInstance().switchActivity(v.getContext(), MapsActivity.class, latLng);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Please try again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Place is not selected", Toast.LENGTH_SHORT).show();
                 }
             }
         });

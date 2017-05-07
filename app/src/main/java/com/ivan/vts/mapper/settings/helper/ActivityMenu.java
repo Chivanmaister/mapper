@@ -38,7 +38,7 @@ public class ActivityMenu {
         if (id == R.id.settings) {
             intent = new Intent(activityFrom, SettingActivity.class);
         }
-        if (id == R.id.autocomplete_fragment) {
+        if (id == R.id.navigation) {
             intent = new Intent(activityFrom, NavigationActivity.class);
         }
         if (id == R.id.history) {
@@ -49,14 +49,18 @@ public class ActivityMenu {
         return false;
     }
 
-    public boolean switchActivity(Context context, Class targetClass, LatLng parameter) {
+    public void switchActivity(Activity activityFrom, Class targetClass) {
+        intent = new Intent(activityFrom, targetClass);
+        activityFrom.startActivity(intent);
+    }
+
+    public void switchActivity(Context context, Class targetClass, LatLng parameter) {
         intent = new Intent(context, targetClass);
         Bundle bundle = new Bundle();
         bundle.putDouble(Constants.LAT, parameter.latitude);
         bundle.putDouble(Constants.LNG, parameter.longitude);
         intent.putExtras(bundle);
         context.startActivity(intent);
-        return false;
     }
 
 }

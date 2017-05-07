@@ -5,7 +5,7 @@
     tools:context="com.ivan.vts.mapper.map.MapsActivity">
 
     <item android:title="@string/navigation"
-        android:id="@+id/autocomplete_fragment"
+        android:id="@+id/navigation"
         android:orderInCategory="1"
         app:showAsAction="collapseActionView" />
 

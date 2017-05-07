@@ -1,46 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ivan.vts.mapper.settings.SettingActivity">
 
-    <ScrollView
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
 
-        <LinearLayout
+        <Spinner
+            android:id="@+id/languageSelect"
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            app:layout_constraintTop_toBottomOf="@+id/languageView"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintBottom_toTopOf="@+id/saveSettings"
+            android:entries="@array/languageList" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toTopOf="@+id/languageView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/themeRadioGroup"
+            app:layout_constraintVertical_bias="0.0"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:id="@+id/space" />
+
+        <TextView
+            android:id="@+id/languageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="@string/language"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="88dp"
+            android:textSize="25sp" />
 
-            <TextView
-                android:id="@+id/language"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:gravity="center_vertical"
-                android:text="Language"
-                android:textSize="16dp"
-                android:background="@drawable/setting"/>
+        <TextView
+            android:id="@+id/themeView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/color"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="25sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" />
 
-            <TextView
-                android:id="@+id/colors"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:background="@drawable/setting"
-                android:text="Color" />
+        <Button
+            android:id="@+id/saveSettings"
+            android:layout_width="114dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@string/saveSettings"
+            app:layout_constraintRight_toRightOf="@+id/languageView"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-            <TextView
-                android:id="@+id/server"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+        <RadioGroup
+            android:id="@+id/themeRadioGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/themeView">
+
+            <RadioButton
+                android:id="@+id/defaultTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/setting"
-                android:text="Server" />
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+                android:checked="true"
+                android:text="@string/defaultTheme" />
+
+            <RadioButton
+                android:id="@+id/retroTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/retroTheme" />
+
+            <RadioButton
+                android:id="@+id/nightTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/nightTheme" />
+        </RadioGroup>
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

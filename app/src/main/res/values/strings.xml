@@ -6,4 +6,16 @@
     <string name="navigation">Navigation</string>
     <string name="history">History</string>
     <string name="clear_map">Clear map</string>
+    <string name="language">Language</string>
+    <string name="color">Theme</string>
+    <string name="defaultTheme">Default</string>
+    <string name="retroTheme">Retro</string>
+    <string name="nightTheme">Night</string>
+    <string name="saveSettings">Save</string>
+
+    <string-array name="languageList">
+        <item>English</item>
+        <item>Serbian</item>
+        <item>Hungarian</item>
+    </string-array>
 </resources>
