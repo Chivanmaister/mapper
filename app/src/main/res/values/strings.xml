@@ -7,11 +7,12 @@
     <string name="history">History</string>
     <string name="clear_map">Clear map</string>
     <string name="language">Language</string>
-    <string name="color">Theme</string>
+    <string name="theme">Theme</string>
     <string name="defaultTheme">Default</string>
     <string name="retroTheme">Retro</string>
     <string name="nightTheme">Night</string>
     <string name="saveSettings">Save</string>
+    <string name="start">Start</string>
 
     <string-array name="languageList">
         <item>English</item>

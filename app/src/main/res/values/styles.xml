@@ -1,17 +1,39 @@
 <resources>
-    <style name="DarkTheme" parent="Theme.AppCompat.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:itemBackground">@color/colorMenuItems</item>
-        <item name="android:background">@color/colorMenuItems</item>
-    </style>
-    <style name="LigthTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorMenuItems</item>
-        <item name="colorPrimaryDark">@color/primary_dark_material_light</item>
+    <style name="LigthTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+<!--        <item name="colorPrimary">@color/aztec_gold</item>
+        <item name="colorPrimaryDark">@color/licorice</item>
         <item name="colorAccent">@color/accent_material_light</item>
-        <item name="android:itemBackground">@color/colorMenuItems</item>
-        <item name="android:background">@color/colorMenuItems</item>
+        <item name="android:itemBackground">@color/aztec_gold</item>
+        <item name="android:background">@color/aztec_gold</item>
+        -->
     </style>
+
+    <style name="RetroTheme" parent="@style/Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimaryDark">@color/nickel</item>
+        <item name="colorPrimary">@color/spanish_gray</item>
+        <item name="colorAccent">@color/turtle_green</item>
+        <item name="android:windowBackground">@color/pale_goldenrod</item>
+        <item name="android:colorBackground">@color/white_smoke</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/black_light</item>
+        <item name="android:textColorSecondaryInverse">@color/white</item>
+        <item name="android:textColorPrimaryInverse">@color/white_smoke</item>
+        <item name="android:colorForeground">@color/pale_goldenrod</item>
+        <item name="colorButtonNormal">@color/june_bud</item>
+        <item name="android:colorForegroundInverse">@color/white_smoke</item>
+    </style>
+
+
+    <style name="DarkTheme" parent="@style/Theme.AppCompat">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+<!--        <item name="colorPrimary">@color/aztec_gold</item>
+        <item name="colorPrimaryDark">@color/licorice</item>
+        <item name="colorAccent">@color/accent_material_light</item>
+        <item name="android:itemBackground">@color/aztec_gold</item>
+        <item name="android:background">@color/aztec_gold</item>
+        -->
+    </style>
+
 </resources>

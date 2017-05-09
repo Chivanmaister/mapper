@@ -49,12 +49,12 @@ public class ActivityMenu {
         return false;
     }
 
-    public void switchActivity(Activity activityFrom, Class targetClass) {
+    public <T> void switchActivity(Activity activityFrom, Class<T> targetClass) {
         intent = new Intent(activityFrom, targetClass);
         activityFrom.startActivity(intent);
     }
 
-    public void switchActivity(Context context, Class targetClass, LatLng parameter) {
+    public <T> void switchActivity(Context context, Class<T> targetClass, LatLng parameter) {
         intent = new Intent(context, targetClass);
         Bundle bundle = new Bundle();
         bundle.putDouble(Constants.LAT, parameter.latitude);

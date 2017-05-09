@@ -21,6 +21,7 @@ public class GsonParser {
      return gsonParser;
     }
 
+    @SuppressWarnings("all")
     public Route parseRoute(String json) {
         List<LatLng> startList = new ArrayList<>();
         List<LatLng> endList = new ArrayList<>();

@@ -23,7 +23,8 @@ public abstract class DefaultAppActivity extends AppCompatActivity {
 
         if (theme == 0)
             setTheme(R.style.LigthTheme);
-//        if (theme == 2)
+        else if (theme == 1)
+            setTheme(R.style.RetroTheme);
         else
             setTheme(R.style.DarkTheme);
 

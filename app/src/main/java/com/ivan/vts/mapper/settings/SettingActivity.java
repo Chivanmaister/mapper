@@ -46,7 +46,7 @@ public class SettingActivity extends DefaultAppActivity {
                 SharedPreferences.Editor editor = preferences.edit();
 //                editor.putString("primaryLanguage", selectedLanguage);
                 editor.putInt("primaryTheme", selectedTheme);
-                editor.commit();
+                editor.apply();
                 Toast.makeText(SettingActivity.this, "Settings are saved", Toast.LENGTH_SHORT).show();
                 ActivityMenu.getInstance().switchActivity(SettingActivity.this, MapsActivity.class);
             }
