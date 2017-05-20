@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_settings">Opcije</string>
-    <string name="clear_map">Poništi</string>
     <string name="history">Istorija</string>
     <string name="navigation">Navigacija</string>
+    <string name="language">Jezik</string>
+    <string name="saveSettings">Sacuvaj</string>
+    <string name="start">Kreni</string>
+    <string name="clear_map">Obrisi</string>
+
+    <string-array name="languageList">
+        <item>Engleski</item>
+        <item>Srpski</item>
+        <item>Madarski</item>
+    </string-array>
 </resources>

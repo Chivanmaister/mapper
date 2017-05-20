@@ -16,4 +16,5 @@ public class Constants {
     public static final String OK = "OK";
     public static final String APP_NAME = "Mapper";
     public static final String DEFAULT_LANGUAGE = "English";
+    public static final String DEFAULT_THEME = "theme";
 }

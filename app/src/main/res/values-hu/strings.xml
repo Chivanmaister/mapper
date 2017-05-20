@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="action_settings"></string>
+    <string name="action_settings">a</string>
+    <string name="clear_map">b</string>
+    <string name="history">c</string>
+    <string name="language">d</string>
+    <string name="navigation">e</string>
+    <string name="saveSettings">f</string>
+    <string name="start">g</string>
+
+    <string-array name="languageList">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
 </resources>

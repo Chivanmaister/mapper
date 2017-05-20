@@ -87,12 +87,15 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return ActivityMenu.getInstance().switchActivity(this, item);
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constants.DEFAULT_THEME, themeNo);
+        bundle.putInt(Constants.DEFAULT_LANGUAGE, languageNo);
+        return ActivityMenu.getInstance().switchActivity(this, item, bundle);
     }
 
     private void getBundle(Intent intent) {
         Bundle bundle = intent.getExtras();
-        if (bundle != null) {
+        if (bundle != null && bundle.containsKey(Constants.LAT) && bundle.containsKey(Constants.LNG)) {
             clearButton.setClickable(true);
             clearButton.setVisibility(View.VISIBLE);
             String googleUrl = url + "origin=" + latLng.latitude + "," + latLng.longitude;
@@ -186,12 +189,11 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
 
     private void setMapStyle() {
         MapStyleOptions mapOptions = null;
-        int mapStyle = preferences.getInt("primaryTheme", 0);
-        if (mapStyle == 0)
+        if (themeNo == 0)
             mapOptions = MapStyleOptions.loadRawResourceStyle(this, R.raw.standard_style);
-        else if (mapStyle == 1)
+        else if (themeNo == 1)
             mapOptions = MapStyleOptions.loadRawResourceStyle(this, R.raw.retro_style);
-        else if (mapStyle == 2)
+        else if (themeNo == 2)
             mapOptions = MapStyleOptions.loadRawResourceStyle(this, R.raw.night_style);
         mGoogleMap.setMapStyle(mapOptions);
     }

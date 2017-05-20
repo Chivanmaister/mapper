@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -12,6 +11,7 @@ import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.ivan.vts.mapper.R;
+import com.ivan.vts.mapper.extended.Constants;
 import com.ivan.vts.mapper.map.DefaultAppActivity;
 import com.ivan.vts.mapper.map.MapsActivity;
 import com.ivan.vts.mapper.settings.helper.ActivityMenu;
@@ -44,9 +44,10 @@ public class NavigationActivity extends DefaultAppActivity {
             @Override
             public void onClick(View v) {
                 if (latLng != null) {
-                    ActivityMenu.getInstance().switchActivity(v.getContext(), MapsActivity.class, latLng);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Place is not selected", Toast.LENGTH_SHORT).show();
+                    Bundle bundle = new Bundle();
+                    bundle.putDouble(Constants.LAT, latLng.latitude);
+                    bundle.putDouble(Constants.LNG, latLng.longitude);
+                    ActivityMenu.getInstance().switchActivity(NavigationActivity.this, MapsActivity.class, bundle);
                 }
             }
         });

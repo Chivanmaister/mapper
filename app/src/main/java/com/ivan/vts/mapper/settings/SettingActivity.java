@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.ivan.vts.mapper.R;
@@ -19,38 +20,45 @@ public class SettingActivity extends DefaultAppActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences preferences = getSharedPreferences(Constants.APP_NAME, MODE_PRIVATE);
-//        int language = preferences.getInt("primaryLanguage", 0);
-        int theme = preferences.getInt("primaryTheme", 0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
         Button saveButton = (Button) findViewById(R.id.saveSettings);
-//        Spinner languageSpiner = (Spinner) findViewById(R.id.languageSelect);
-        RadioGroup themeRadioGrop = (RadioGroup) findViewById(R.id.themeRadioGroup);
+        Spinner languageSpinner = (Spinner) findViewById(R.id.languageSelect);
+        RadioGroup themeRadioGroup = (RadioGroup) findViewById(R.id.themeRadioGroup);
 
-        ((RadioButton) themeRadioGrop.getChildAt(theme)).setChecked(true);
+        ((RadioButton) themeRadioGroup.getChildAt(themeNo)).setChecked(true);
+        languageSpinner.setSelection(languageNo);
 
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int selectedTheme = 0;
-//                String selectedLanguage = (String) languageSpiner.getSelectedItem();
-                if (themeRadioGrop.getCheckedRadioButtonId() == R.id.defaultTheme)
+                int selectedLanguage = 0;
+                if (themeRadioGroup.getCheckedRadioButtonId() == R.id.defaultTheme)
                     selectedTheme = 0;
-                if (themeRadioGrop.getCheckedRadioButtonId() == R.id.retroTheme)
+                else if (themeRadioGroup.getCheckedRadioButtonId() == R.id.retroTheme)
                     selectedTheme = 1;
-                else if (themeRadioGrop.getCheckedRadioButtonId() == R.id.nightTheme)
+                else
                     selectedTheme = 2;
+                if (languageSpinner.getSelectedItemPosition() == 0)
+                    selectedLanguage = 0;
+                else if (languageSpinner.getSelectedItemPosition() == 1)
+                    selectedLanguage = 1;
+                else
+                    selectedLanguage = 2;
 
                 SharedPreferences.Editor editor = preferences.edit();
-//                editor.putString("primaryLanguage", selectedLanguage);
-                editor.putInt("primaryTheme", selectedTheme);
+                editor.putInt(Constants.DEFAULT_THEME, selectedTheme);
+                editor.putInt(Constants.DEFAULT_LANGUAGE, selectedLanguage);
                 editor.apply();
+                Bundle bundle = new Bundle();
+                bundle.putInt(Constants.DEFAULT_THEME, selectedTheme);
+                bundle.putInt(Constants.DEFAULT_LANGUAGE, selectedLanguage);
                 Toast.makeText(SettingActivity.this, "Settings are saved", Toast.LENGTH_SHORT).show();
-                ActivityMenu.getInstance().switchActivity(SettingActivity.this, MapsActivity.class);
+                ActivityMenu.getInstance().switchActivity(SettingActivity.this, MapsActivity.class, bundle);
             }
         });
-
     }
 }

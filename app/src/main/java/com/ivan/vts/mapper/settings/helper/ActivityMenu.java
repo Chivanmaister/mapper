@@ -1,15 +1,13 @@
 package com.ivan.vts.mapper.settings.helper;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.ivan.vts.mapper.R;
-import com.ivan.vts.mapper.extended.Constants;
 import com.ivan.vts.mapper.history.HistoryActivity;
+import com.ivan.vts.mapper.map.MapsActivity;
 import com.ivan.vts.mapper.navigation.NavigationActivity;
 import com.ivan.vts.mapper.settings.SettingActivity;
 
@@ -32,20 +30,21 @@ public class ActivityMenu {
         return activityMenu;
     }
 
-    public boolean switchActivity(Activity activityFrom, MenuItem menuItem) {
+    public boolean switchActivity(Activity activityFrom, MenuItem menuItem, Bundle bundle) {
         int id = menuItem.getItemId();
 
         if (id == R.id.settings) {
-            intent = new Intent(activityFrom, SettingActivity.class);
+//            intent = new Intent(activityFrom, SettingActivity.class);
+            switchActivity(activityFrom, SettingActivity.class, bundle);
         }
         if (id == R.id.navigation) {
-            intent = new Intent(activityFrom, NavigationActivity.class);
+//            intent = new Intent(activityFrom, NavigationActivity.class);
+            switchActivity(activityFrom, NavigationActivity.class, bundle);
         }
         if (id == R.id.history) {
-            intent = new Intent(activityFrom, HistoryActivity.class);
+//            intent = new Intent(activityFrom, HistoryActivity.class);
+            switchActivity(activityFrom, HistoryActivity.class, bundle);
         }
-        activityFrom.startActivity(intent);
-
         return false;
     }
 
@@ -54,13 +53,13 @@ public class ActivityMenu {
         activityFrom.startActivity(intent);
     }
 
-    public <T> void switchActivity(Context context, Class<T> targetClass, LatLng parameter) {
-        intent = new Intent(context, targetClass);
-        Bundle bundle = new Bundle();
-        bundle.putDouble(Constants.LAT, parameter.latitude);
-        bundle.putDouble(Constants.LNG, parameter.longitude);
+    public <T> void switchActivity(Activity activityFrom, Class<T> targetClass, Bundle bundle) {
+        intent = new Intent(activityFrom, targetClass);
         intent.putExtras(bundle);
-        context.startActivity(intent);
+        activityFrom.startActivity(intent);
+        if (targetClass == MapsActivity.class) {
+            activityFrom.finish();
+        }
     }
 
 }

@@ -7,10 +7,10 @@
     <string name="history">History</string>
     <string name="clear_map">Clear map</string>
     <string name="language">Language</string>
-    <string name="theme">Theme</string>
-    <string name="defaultTheme">Default</string>
-    <string name="retroTheme">Retro</string>
-    <string name="nightTheme">Night</string>
+    <string name="theme" translatable="false">Theme</string>
+    <string name="defaultTheme" translatable="false">Default</string>
+    <string name="retroTheme" translatable="false">Retro</string>
+    <string name="nightTheme" translatable="false">Night</string>
     <string name="saveSettings">Save</string>
     <string name="start">Start</string>
 
