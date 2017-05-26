@@ -4,8 +4,8 @@
     <string name="title_activity_maps" translatable="false">Mapper</string>
     <string name="action_settings">Setting</string>
     <string name="navigation">Navigation</string>
-    <string name="history">History</string>
-    <string name="clear_map">Clear map</string>
+    <string name="trackRoute">Tracking</string>
+    <string name="clearMap">Clear map</string>
     <string name="language">Language</string>
     <string name="theme" translatable="false">Theme</string>
     <string name="defaultTheme" translatable="false">Default</string>
@@ -13,6 +13,8 @@
     <string name="nightTheme" translatable="false">Night</string>
     <string name="saveSettings">Save</string>
     <string name="start">Start</string>
+    <string name="tracking">Start tracking</string>
+    <string name="showPolyline">Show tracking line while moving</string>
 
     <string-array name="languageList">
         <item>English</item>

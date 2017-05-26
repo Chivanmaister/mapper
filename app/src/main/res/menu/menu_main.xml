@@ -9,7 +9,7 @@
         android:orderInCategory="1"
         app:showAsAction="collapseActionView" />
 
-    <item android:title="@string/history"
+    <item android:title="@string/trackRoute"
         android:id="@+id/history"
         android:orderInCategory="2"
         app:showAsAction="collapseActionView" />

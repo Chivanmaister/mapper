@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.ivan.vts.mapper.R;
-import com.ivan.vts.mapper.history.HistoryActivity;
+import com.ivan.vts.mapper.history.TrackingActivity;
 import com.ivan.vts.mapper.map.MapsActivity;
 import com.ivan.vts.mapper.navigation.NavigationActivity;
 import com.ivan.vts.mapper.settings.SettingActivity;
@@ -42,8 +42,8 @@ public class ActivityMenu {
             switchActivity(activityFrom, NavigationActivity.class, bundle);
         }
         if (id == R.id.history) {
-//            intent = new Intent(activityFrom, HistoryActivity.class);
-            switchActivity(activityFrom, HistoryActivity.class, bundle);
+//            intent = new Intent(activityFrom, TrackingActivity.class);
+            switchActivity(activityFrom, TrackingActivity.class, bundle);
         }
         return false;
     }

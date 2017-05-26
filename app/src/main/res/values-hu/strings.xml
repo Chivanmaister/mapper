@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_settings">a</string>
-    <string name="clear_map">b</string>
-    <string name="history">c</string>
+    <string name="clearMap">b</string>
+    <string name="trackRoute">c</string>
     <string name="language">d</string>
     <string name="navigation">e</string>
     <string name="saveSettings">f</string>

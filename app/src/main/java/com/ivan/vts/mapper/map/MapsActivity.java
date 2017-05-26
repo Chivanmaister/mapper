@@ -40,11 +40,13 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
     protected SupportMapFragment mFragment;
     protected static String     url = "https://maps.googleapis.com/maps/api/directions/json?";
     private Button clearButton;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        bundle = getIntent().getExtras();
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -88,14 +90,14 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Bundle bundle = new Bundle();
+//        bundle = getIntent().getExtras(); //new Bundle();
         bundle.putInt(Constants.DEFAULT_THEME, themeNo);
         bundle.putInt(Constants.DEFAULT_LANGUAGE, languageNo);
         return ActivityMenu.getInstance().switchActivity(this, item, bundle);
     }
 
     private void getBundle(Intent intent) {
-        Bundle bundle = intent.getExtras();
+        bundle = intent.getExtras();
         if (bundle != null && bundle.containsKey(Constants.LAT) && bundle.containsKey(Constants.LNG)) {
             clearButton.setClickable(true);
             clearButton.setVisibility(View.VISIBLE);

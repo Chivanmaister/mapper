@@ -51,7 +51,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".history.HistoryActivity"
+            android:name=".history.TrackingActivity"
             android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

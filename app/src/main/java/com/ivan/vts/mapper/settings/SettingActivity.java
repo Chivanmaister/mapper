@@ -50,7 +50,7 @@ public class SettingActivity extends DefaultAppActivity {
             editor.putInt(Constants.DEFAULT_THEME, selectedTheme);
             editor.putInt(Constants.DEFAULT_LANGUAGE, selectedLanguage);
             editor.apply();
-            Bundle bundle = new Bundle();
+            Bundle bundle = getIntent().getExtras();
             bundle.putInt(Constants.DEFAULT_THEME, selectedTheme);
             bundle.putInt(Constants.DEFAULT_LANGUAGE, selectedLanguage);
             Toast.makeText(SettingActivity.this, "Settings are saved", Toast.LENGTH_SHORT).show();

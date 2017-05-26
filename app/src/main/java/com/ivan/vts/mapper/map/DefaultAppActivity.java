@@ -46,7 +46,7 @@ public abstract class DefaultAppActivity extends AppCompatActivity {
         super.onNewIntent(intent);
     }
 
-    @SuppressWarnings("deprecated")
+    @SuppressWarnings("all")
     private void setLanguage(Intent intent) {
         languageNo = intent.getExtras().getInt(Constants.DEFAULT_LANGUAGE, 0);
         Locale locale;
