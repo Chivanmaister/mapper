@@ -26,6 +26,7 @@ public class NavigationActivity extends DefaultAppActivity {
         setContentView(R.layout.activity_navigation);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         Button navigateButton = (Button) findViewById(R.id.navigateButton);
+        Bundle savedBundle = getIntent().getExtras();
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.fragment);
@@ -45,6 +46,7 @@ public class NavigationActivity extends DefaultAppActivity {
             public void onClick(View v) {
                 if (latLng != null) {
                     Bundle bundle = new Bundle();
+                    bundle.putAll(savedBundle);
                     bundle.putDouble(Constants.LAT, latLng.latitude);
                     bundle.putDouble(Constants.LNG, latLng.longitude);
                     ActivityMenu.getInstance().switchActivity(NavigationActivity.this, MapsActivity.class, bundle);

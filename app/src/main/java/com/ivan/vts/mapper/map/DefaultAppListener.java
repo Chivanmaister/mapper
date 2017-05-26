@@ -21,6 +21,7 @@ public class DefaultAppListener extends DefaultAppActivity implements LocationLi
     protected GoogleMap mGoogleMap;
     protected Route route;
     private static final String mapperUrl = "";
+    protected static boolean sendData = true;
 
     @Override
     public void onLocationChanged(Location location) {

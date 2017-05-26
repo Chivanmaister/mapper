@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,11 +55,11 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
                         .setTitleText("Account name")
                         .setContentText("Application requires Google account.")
                         .setConfirmText("Exit application")
-                        .setConfirmClickListener(sDialog -> exitApplication())
+                        .setConfirmClickListener(sDialog -> finish())
                         .show();
             }
         } catch (SecurityException e) {
-            exitApplication();
+            finish();
         }
 
         mFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -127,11 +128,6 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
                 .build();
     }
 
-    private void exitApplication() {
-        this.finish();
-        System.exit(0);
-    }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -196,5 +192,17 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
         else if (themeNo == 2)
             mapOptions = MapStyleOptions.loadRawResourceStyle(this, R.raw.night_style);
         mGoogleMap.setMapStyle(mapOptions);
+    }
+
+    @Override
+    public void onBackPressed(){
+        new AlertDialog.Builder(this)
+                .setTitle("Really Exit?")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    sendData = false;
+                    MapsActivity.this.finish();
+                }).create().show();
     }
 }

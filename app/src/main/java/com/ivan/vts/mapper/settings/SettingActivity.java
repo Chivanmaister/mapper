@@ -2,7 +2,6 @@ package com.ivan.vts.mapper.settings;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -31,34 +30,31 @@ public class SettingActivity extends DefaultAppActivity {
         languageSpinner.setSelection(languageNo);
 
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int selectedTheme = 0;
-                int selectedLanguage = 0;
-                if (themeRadioGroup.getCheckedRadioButtonId() == R.id.defaultTheme)
-                    selectedTheme = 0;
-                else if (themeRadioGroup.getCheckedRadioButtonId() == R.id.retroTheme)
-                    selectedTheme = 1;
-                else
-                    selectedTheme = 2;
-                if (languageSpinner.getSelectedItemPosition() == 0)
-                    selectedLanguage = 0;
-                else if (languageSpinner.getSelectedItemPosition() == 1)
-                    selectedLanguage = 1;
-                else
-                    selectedLanguage = 2;
+        saveButton.setOnClickListener(view -> {
+            int selectedTheme = 0;
+            int selectedLanguage = 0;
+            if (themeRadioGroup.getCheckedRadioButtonId() == R.id.defaultTheme)
+                selectedTheme = 0;
+            else if (themeRadioGroup.getCheckedRadioButtonId() == R.id.retroTheme)
+                selectedTheme = 1;
+            else
+                selectedTheme = 2;
+            if (languageSpinner.getSelectedItemPosition() == 0)
+                selectedLanguage = 0;
+            else if (languageSpinner.getSelectedItemPosition() == 1)
+                selectedLanguage = 1;
+            else
+                selectedLanguage = 2;
 
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putInt(Constants.DEFAULT_THEME, selectedTheme);
-                editor.putInt(Constants.DEFAULT_LANGUAGE, selectedLanguage);
-                editor.apply();
-                Bundle bundle = new Bundle();
-                bundle.putInt(Constants.DEFAULT_THEME, selectedTheme);
-                bundle.putInt(Constants.DEFAULT_LANGUAGE, selectedLanguage);
-                Toast.makeText(SettingActivity.this, "Settings are saved", Toast.LENGTH_SHORT).show();
-                ActivityMenu.getInstance().switchActivity(SettingActivity.this, MapsActivity.class, bundle);
-            }
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt(Constants.DEFAULT_THEME, selectedTheme);
+            editor.putInt(Constants.DEFAULT_LANGUAGE, selectedLanguage);
+            editor.apply();
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constants.DEFAULT_THEME, selectedTheme);
+            bundle.putInt(Constants.DEFAULT_LANGUAGE, selectedLanguage);
+            Toast.makeText(SettingActivity.this, "Settings are saved", Toast.LENGTH_SHORT).show();
+            ActivityMenu.getInstance().switchActivity(SettingActivity.this, MapsActivity.class, bundle);
         });
     }
 }

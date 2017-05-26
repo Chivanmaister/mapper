@@ -18,10 +18,6 @@ public class LogoActivity extends AppCompatActivity {
 
     private class SplashScreen extends AsyncTask<Void, Void, SharedPreferences> {
 
-//        @Override
-//        protected void onPreExecute() {
-//        }
-
         @Override
         protected SharedPreferences doInBackground(Void... params) {
             SharedPreferences preferences;
