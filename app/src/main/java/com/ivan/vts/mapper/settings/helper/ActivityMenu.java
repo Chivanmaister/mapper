@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.ivan.vts.mapper.R;
-import com.ivan.vts.mapper.history.TrackingActivity;
+import com.ivan.vts.mapper.tracking.TrackingActivity;
 import com.ivan.vts.mapper.map.MapsActivity;
 import com.ivan.vts.mapper.navigation.NavigationActivity;
 import com.ivan.vts.mapper.settings.SettingActivity;

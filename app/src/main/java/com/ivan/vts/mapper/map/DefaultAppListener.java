@@ -35,6 +35,7 @@ public class DefaultAppListener extends DefaultAppActivity implements LocationLi
 
         mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
+        //TODO: uncomment and set sever to update user movement
 //        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 //        StringRequest request = new StringRequest(Request.Method.POST, mapperUrl, new Response.Listener<String>() {
 //            @Override

@@ -1,6 +1,5 @@
 package com.ivan.vts.mapper.map;
 
-import android.accounts.AccountManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -29,11 +28,8 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Arrays;
 
 import javax.net.ssl.HttpsURLConnection;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCallback, View.OnClickListener {
 
@@ -50,23 +46,8 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-//        Pop up for invalid account
-        try {
-            if (Arrays.asList(AccountManager.get(getApplicationContext()).getAccountsByType("com.google")).isEmpty()) {
-                new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("Account name")
-                        .setContentText("Application requires Google account.")
-                        .setConfirmText("Exit application")
-                        .setConfirmClickListener(sDialog -> finish())
-                        .show();
-            }
-        } catch (SecurityException e) {
-            finish();
-        }
-
         mFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mFragment.getMapAsync(this);
-
 
         clearButton = (Button) findViewById(R.id.clear);
         clearButton.setOnClickListener(this);
@@ -90,7 +71,6 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        bundle = getIntent().getExtras(); //new Bundle();
         bundle.putInt(Constants.DEFAULT_THEME, themeNo);
         bundle.putInt(Constants.DEFAULT_LANGUAGE, languageNo);
         return ActivityMenu.getInstance().switchActivity(this, item, bundle);

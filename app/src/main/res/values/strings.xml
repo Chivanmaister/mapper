@@ -14,7 +14,7 @@
     <string name="saveSettings">Save</string>
     <string name="start">Start</string>
     <string name="tracking">Start tracking</string>
-    <string name="showPolyline">Show tracking line while moving</string>
+    <string name="showPolyline">Show tracking line</string>
 
     <string-array name="languageList">
         <item>English</item>

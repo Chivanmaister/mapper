@@ -6,7 +6,7 @@ package com.ivan.vts.mapper.extended;
 
 public class Constants {
     public static final String ROUTE = "route";
-    public static final String ROUTE_NAME = "route_name";
+    public static final String TRACKER_ID = "routeId";
     public static final String ROAD = "road";
     public static final String POST = "POST";
     public static final String GET = "GET";
@@ -20,4 +20,6 @@ public class Constants {
     public static final String DEFAULT_THEME = "theme";
     public static final String TRACKING = "tracking";
     public static final String POLYLINE = "polyline";
+    public static final String USER_ID = "userId";
+    public static final String ACCOUNT_TYPE = "com.google";
 }

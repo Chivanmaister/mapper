@@ -47,4 +47,16 @@ public class GsonParser {
 
         return route;
     }
+
+    @SuppressWarnings("unchecked")
+    public Integer parseUserId(String json) {
+        Map<String, Object> jsonMap = new Gson().fromJson(json, Map.class);
+        return (Integer) jsonMap.get("id");
+    }
+
+    @SuppressWarnings("unchecked")
+    public Integer parseRouteId(String json) {
+        Map<String, Object> jsonMap = new Gson().fromJson(json, Map.class);
+        return (Integer) jsonMap.get("");
+    }
 }

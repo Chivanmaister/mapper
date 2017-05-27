@@ -1,7 +1,6 @@
 package com.ivan.vts.mapper.navigation;
 
 import android.os.Bundle;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
@@ -28,8 +27,7 @@ public class NavigationActivity extends DefaultAppActivity {
         Button navigateButton = (Button) findViewById(R.id.navigateButton);
         Bundle savedBundle = getIntent().getExtras();
 
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
-                getFragmentManager().findFragmentById(R.id.fragment);
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.fragment);
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
@@ -41,16 +39,13 @@ public class NavigationActivity extends DefaultAppActivity {
             public void onError(Status status) {
             }
         });
-        navigateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (latLng != null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putAll(savedBundle);
-                    bundle.putDouble(Constants.LAT, latLng.latitude);
-                    bundle.putDouble(Constants.LNG, latLng.longitude);
-                    ActivityMenu.getInstance().switchActivity(NavigationActivity.this, MapsActivity.class, bundle);
-                }
+        navigateButton.setOnClickListener(v -> {
+            if (latLng != null) {
+                Bundle bundle = new Bundle();
+                bundle.putAll(savedBundle);
+                bundle.putDouble(Constants.LAT, latLng.latitude);
+                bundle.putDouble(Constants.LNG, latLng.longitude);
+                ActivityMenu.getInstance().switchActivity(NavigationActivity.this, MapsActivity.class, bundle);
             }
         });
     }

@@ -1,10 +1,8 @@
-package com.ivan.vts.mapper.history;
+package com.ivan.vts.mapper.tracking;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -37,18 +35,27 @@ public class TrackingActivity extends DefaultAppActivity {
                 final EditText input = new EditText(this);
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
                 builder.setView(input);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        routeName = input.getText().toString();
-                    }
+                builder.setPositiveButton("OK", (dialog, which) -> {
+
+                    //TODO uncomment and set server response for trackerId
+        //        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        //        StringRequest request = new StringRequest(Request.Method.POST, mapperUrl, new Response.Listener<String>() {
+        //            @Override
+        //            public void onResponse(String response) {
+        //                route = GsonParser.getInstance().parseRoute(response);
+        //            }
+        //        }, new Response.ErrorListener() {
+        //            @Override
+        //            public void onErrorResponse(VolleyError error) {
+        //                Toast.makeText(getApplicationContext(), "Unable to connect to Mapper server", Toast.LENGTH_SHORT).show();
+        //            }
+        //        });
+        //        queue.add(request)
+                    routeName = input.getText().toString();
                 });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                        tracking.setChecked(false);
-                    }
+                builder.setNegativeButton("Cancel", (dialog, which) -> {
+                    dialog.cancel();
+                    tracking.setChecked(false);
                 });
                 builder.setCancelable(false);
 
@@ -59,8 +66,7 @@ public class TrackingActivity extends DefaultAppActivity {
         save.setOnClickListener(v -> {
             bundle.putBoolean(Constants.POLYLINE, polyline.isChecked());
             bundle.putBoolean(Constants.TRACKING, tracking.isChecked());
-            bundle.putString(Constants.ROUTE_NAME, routeName);
-            Log.d("TRACKING", String.valueOf(tracking.isChecked()));
+            bundle.putString(Constants.TRACKER_ID, routeName);
             ActivityMenu.getInstance().switchActivity(TrackingActivity.this, MapsActivity.class, bundle);
         });
     }
