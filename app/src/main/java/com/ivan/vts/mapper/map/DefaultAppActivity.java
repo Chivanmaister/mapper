@@ -1,6 +1,7 @@
 package com.ivan.vts.mapper.map;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.util.DisplayMetrics;
 
 import com.ivan.vts.mapper.R;
 import com.ivan.vts.mapper.extended.Constants;
+import com.ivan.vts.mapper.extended.entities.Setting;
 
 import java.util.Locale;
 
@@ -23,13 +25,12 @@ public abstract class DefaultAppActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(getIntent());
+        setLanguageAndTheme();
         super.onCreate(savedInstanceState);
-        setLanguage(getIntent());
     }
 
-    private void setTheme(Intent intent) {
-        themeNo = intent.getExtras().getInt(Constants.DEFAULT_THEME, 0);
+    private void setTheme(Setting setting) {
+        themeNo = setting.getThemeNo();
         if (themeNo == 0)
             setTheme(R.style.LigthTheme);
         else if (themeNo == 1)
@@ -41,14 +42,13 @@ public abstract class DefaultAppActivity extends AppCompatActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        setTheme(intent);
-        setLanguage(intent);
+        setLanguageAndTheme();
         super.onNewIntent(intent);
     }
 
     @SuppressWarnings("all")
-    private void setLanguage(Intent intent) {
-        languageNo = intent.getExtras().getInt(Constants.DEFAULT_LANGUAGE, 0);
+    private void setLanguage(Setting setting) {
+        languageNo = setting.getLanguageNo();
         Locale locale;
         if (languageNo == 0)
             locale = new Locale("en");
@@ -61,5 +61,12 @@ public abstract class DefaultAppActivity extends AppCompatActivity {
         Configuration configuration = resources.getConfiguration();
         configuration.locale = locale;
         resources.updateConfiguration(configuration, displayMetrics);
+    }
+
+    private void setLanguageAndTheme() {
+        SharedPreferences preference = getSharedPreferences(Constants.APP_NAME,MODE_PRIVATE);
+        Setting setting = new Setting(preference.getInt(Constants.DEFAULT_THEME, 0), preference.getInt(Constants.DEFAULT_LANGUAGE, 0));
+        setTheme(setting);
+        setLanguage(setting);
     }
 }
