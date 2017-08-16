@@ -380,5 +380,6 @@ public class ExampleUnitTest {
         for (LatLng latLng : route.getPoints()) {
             System.out.println(latLng.latitude + " " + latLng.longitude);
         }
+        assertNotNull(route.getPoint());
     }
 }

@@ -1,4 +1,4 @@
-package com.ivan.vts.mapper.extended;
+package com.ivan.vts.mapper.splash;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
+import com.ivan.vts.mapper.extended.Constants;
+import com.ivan.vts.mapper.extended.entities.Setting;
 import com.ivan.vts.mapper.map.MapsActivity;
 import com.ivan.vts.mapper.settings.helper.ActivityMenu;
 
@@ -15,7 +17,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LogoActivity extends AppCompatActivity {
-    Bundle bundle = new Bundle();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,6 @@ public class LogoActivity extends AppCompatActivity {
         } catch (SecurityException e) {
             finish();
         }
-        ActivityMenu.getInstance().switchActivity(LogoActivity.this, MapsActivity.class, bundle);
     }
 
     private class SplashScreen extends AsyncTask<Void, Void, SharedPreferences> {
@@ -62,8 +62,10 @@ public class LogoActivity extends AppCompatActivity {
         protected void onPostExecute(SharedPreferences preferences) {
             int theme = preferences.getInt(Constants.DEFAULT_THEME, 0);
             int language = preferences.getInt(Constants.DEFAULT_LANGUAGE, 0);
-            bundle.putInt(Constants.DEFAULT_THEME, theme);
-            bundle.putInt(Constants.DEFAULT_LANGUAGE, language);
+            Setting setting = new Setting(theme, language);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Constants.SETTINGS, setting);
+            ActivityMenu.getInstance().switchActivity(LogoActivity.this, MapsActivity.class, bundle);
         }
     }
 }

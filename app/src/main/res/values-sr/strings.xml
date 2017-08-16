@@ -13,4 +13,7 @@
         <item>Srpski</item>
         <item>Madarski</item>
     </string-array>
+    <string name="exit">Izlaz</string>
+    <string name="showPolyline">Pokazi pratecu liniju</string>
+    <string name="tracking">Zapocni pracenje</string>
 </resources>

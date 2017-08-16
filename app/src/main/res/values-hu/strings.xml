@@ -13,4 +13,7 @@
         <item>2</item>
         <item>3</item>
     </string-array>
+    <string name="showPolyline">i</string>
+    <string name="exit">h</string>
+    <string name="tracking">j</string>
 </resources>

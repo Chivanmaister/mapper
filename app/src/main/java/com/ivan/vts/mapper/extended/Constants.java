@@ -16,10 +16,12 @@ public class Constants {
     public static final String LNG = "lng";
     public static final String OK = "OK";
     public static final String APP_NAME = "Mapper";
-    public static final String DEFAULT_LANGUAGE = "English";
+    public static final String DEFAULT_LANGUAGE = "language";
     public static final String DEFAULT_THEME = "theme";
     public static final String TRACKING = "tracking";
     public static final String POLYLINE = "polyline";
     public static final String USER_ID = "userId";
     public static final String ACCOUNT_TYPE = "com.google";
+    public static final String ROUTE_TRACKER = "routeTracker";
+    public static final String SETTINGS = "settings";
 }

@@ -15,6 +15,10 @@
     <string name="start">Start</string>
     <string name="tracking">Start tracking</string>
     <string name="showPolyline">Show tracking line</string>
+    <string name="exit">Exit</string>
+    <string name="exit_text">Exit application?</string>
+    <string name="trackingName">Tracking name</string>
+    <string name="editTrackingName">Edit name</string>
 
     <string-array name="languageList">
         <item>English</item>

@@ -20,6 +20,7 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.ivan.vts.mapper.R;
 import com.ivan.vts.mapper.extended.Constants;
 import com.ivan.vts.mapper.extended.GsonParser;
+import com.ivan.vts.mapper.extended.entities.Setting;
 import com.ivan.vts.mapper.settings.helper.ActivityMenu;
 
 import org.apache.commons.io.IOUtils;
@@ -34,7 +35,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCallback, View.OnClickListener {
 
     protected SupportMapFragment mFragment;
-    protected static String     url = "https://maps.googleapis.com/maps/api/directions/json?";
+    protected static String url = "https://maps.googleapis.com/maps/api/directions/json?";
     private Button clearButton;
     private Bundle bundle;
 
@@ -71,8 +72,8 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        bundle.putInt(Constants.DEFAULT_THEME, themeNo);
-        bundle.putInt(Constants.DEFAULT_LANGUAGE, languageNo);
+        Setting setting = new Setting(themeNo, languageNo);
+        bundle.putSerializable(Constants.SETTINGS, setting);
         return ActivityMenu.getInstance().switchActivity(this, item, bundle);
     }
 
@@ -177,10 +178,10 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         new AlertDialog.Builder(this)
-                .setTitle("Really Exit?")
-                .setMessage("Are you sure you want to exit?")
+                .setTitle(R.string.exit)
+                .setMessage(R.string.exit_text)
                 .setNegativeButton(android.R.string.no, null)
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
                     sendData = false;

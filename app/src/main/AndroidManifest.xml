@@ -59,7 +59,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".extended.LogoActivity"
+            android:name=".splash.LogoActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme">
