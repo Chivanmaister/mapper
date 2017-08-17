@@ -37,13 +37,11 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
     protected SupportMapFragment mFragment;
     protected static String url = "https://maps.googleapis.com/maps/api/directions/json?";
     private Button clearButton;
-    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        bundle = getIntent().getExtras();
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
@@ -123,9 +121,11 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
 
     @Override
     public void onClick(View v) {
-        mGoogleMap.clear();
+        polyline.remove();
         clearButton.setClickable(false);
         clearButton.setVisibility(View.GONE);
+        bundle.remove(Constants.LAT);
+        bundle.remove(Constants.LNG);
     }
 
     private class AsyncDataTransfer extends AsyncTask<String, Void, String> {
@@ -135,7 +135,7 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
         protected void onPreExecute() {
             dialog = new ProgressDialog(MapsActivity.this);
             dialog.setProgress(ProgressDialog.STYLE_SPINNER);
-            dialog.setMessage("Loading route, please wait");
+            dialog.setMessage(getApplicationContext().getResources().getString(R.string.loadingRoute));
             dialog.setIndeterminate(true);
             dialog.setCancelable(false);
             dialog.show();

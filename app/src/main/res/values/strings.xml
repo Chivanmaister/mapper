@@ -19,6 +19,8 @@
     <string name="exit_text">Exit application?</string>
     <string name="trackingName">Tracking name</string>
     <string name="editTrackingName">Edit name</string>
+    <string name="history">History</string>
+    <string name="loadingRoute">Loading route, please wait</string>
 
     <string-array name="languageList">
         <item>English</item>

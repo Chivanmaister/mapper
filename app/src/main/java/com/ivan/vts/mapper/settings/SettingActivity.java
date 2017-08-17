@@ -31,8 +31,6 @@ public class SettingActivity extends DefaultAppActivity {
 
 
         saveButton.setOnClickListener(view -> {
-//            int selectedTheme = 0;
-//            int selectedLanguage = 0;
             if (themeRadioGroup.getCheckedRadioButtonId() == R.id.defaultTheme)
                 themeNo = 0;
             else if (themeRadioGroup.getCheckedRadioButtonId() == R.id.retroTheme)

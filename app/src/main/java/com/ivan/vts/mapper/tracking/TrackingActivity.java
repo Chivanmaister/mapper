@@ -11,10 +11,12 @@ import android.widget.TextView;
 
 import com.ivan.vts.mapper.R;
 import com.ivan.vts.mapper.extended.Constants;
-import com.ivan.vts.mapper.extended.entities.Track;
+import com.ivan.vts.mapper.extended.entities.Tracker;
 import com.ivan.vts.mapper.map.DefaultAppActivity;
 import com.ivan.vts.mapper.map.MapsActivity;
 import com.ivan.vts.mapper.settings.helper.ActivityMenu;
+
+import java.util.UUID;
 
 public class TrackingActivity extends DefaultAppActivity {
     Switch tracking;
@@ -41,7 +43,7 @@ public class TrackingActivity extends DefaultAppActivity {
                 final EditText input = new EditText(this);
                 input.setInputType(InputType.TYPE_CLASS_TEXT);
                 builder.setView(input);
-                builder.setPositiveButton("OK", (dialog, which) -> {
+                builder.setPositiveButton(android.R.string.ok, (dialog, which) -> {
 
                     //TODO uncomment and set server response for trackerId
         //        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
@@ -57,7 +59,13 @@ public class TrackingActivity extends DefaultAppActivity {
         //            }
         //        });
         //        queue.add(request)
-                    routeName.setText(input.getText().toString());
+                    String inputName = input.getText().toString();
+                    if (inputName == null || inputName.isEmpty()) {
+//                        TODO: generate random 7-10 chararcters as route name
+                        routeName.setText(UUID.randomUUID().toString());
+                    } else {
+                        routeName.setText(input.getText().toString());
+                    }
                 });
                 builder.setNegativeButton("Cancel", (dialog, which) -> {
                     dialog.cancel();
@@ -65,23 +73,19 @@ public class TrackingActivity extends DefaultAppActivity {
                     routeName.setText("");
                 });
                 builder.setCancelable(false);
-
                 builder.show();
-            } else {
-                tracking.setChecked(false);
-                routeName.setText("");
             }
         });
         Button save = (Button) findViewById(R.id.save);
         save.setOnClickListener(v -> {
-            Track tracker = new Track(polyline.isChecked(), tracking.isChecked(), null, routeName.getText().toString());
+            Tracker tracker = new Tracker(polyline.isChecked(), tracking.isChecked(), null, routeName.getText().toString());
             bundle.putSerializable(Constants.ROUTE_TRACKER, tracker);
             ActivityMenu.getInstance().switchActivity(TrackingActivity.this, MapsActivity.class, bundle);
         });
     }
 
     public void setSwitchButtons(Bundle bundle) {
-        Track track = (Track) bundle.getSerializable(Constants.ROUTE_TRACKER);
+        Tracker track = (Tracker) bundle.getSerializable(Constants.ROUTE_TRACKER);
         if (track == null) {
             tracking.setChecked(false);
             polyline.setChecked(false);
@@ -89,12 +93,12 @@ public class TrackingActivity extends DefaultAppActivity {
             routeName.setText("");
         }
         else {
-            if (track.getTrackerSelected() == null) {
+            if (!track.getTrackerSelected()) {
                 tracking.setChecked(false);
             } else {
                 tracking.setChecked(track.getTrackerSelected());
             }
-            if (track.getPolylineSelected() != null) {
+            if (track.getPolylineSelected()) {
                 polyline.setChecked(track.getPolylineSelected());
             } else {
                 polyline.setChecked(false);

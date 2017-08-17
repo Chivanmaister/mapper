@@ -6,18 +6,18 @@ import java.io.Serializable;
  * Created by Chiefster on 14/8/2017.
  */
 
-public class Track implements Serializable {
+public class Tracker implements Serializable {
 
     private Boolean polylineSelected;
     private Boolean trackerSelected;
     private Integer trackId;
     private String trackName;
 
-    public Track() {
+    public Tracker() {
 
     }
 
-    public Track(Boolean polylineSelected, Boolean trackerSelected, Integer trackId, String trackName) {
+    public Tracker(Boolean polylineSelected, Boolean trackerSelected, Integer trackId, String trackName) {
         this.polylineSelected = polylineSelected;
         this.trackerSelected = trackerSelected;
         this.trackId = trackId;

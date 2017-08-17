@@ -22,31 +22,6 @@ public class LogoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         new SplashScreen().execute();
         super.onCreate(savedInstanceState);
-        try {
-            List<Account> accounts = Arrays.asList(AccountManager.get(getApplicationContext()).getAccountsByType(Constants.ACCOUNT_TYPE));
-            if (accounts.isEmpty()) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Invalid email");
-                builder.setMessage("");
-                builder.setPositiveButton("Exit", (dialog, which) -> finish());
-                builder.setCancelable(false);
-                builder.show();
-            }
-
-            // TODO: uncomment and set server response for userId
-//            RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-//            StringRequest request = new StringRequest(Request.Method.POST, null,
-//                    response -> {
-//                        bundle.putInt(Constants.USER_ID, GsonParser.getInstance().parseUserId(response));
-//                    },
-//                    error -> {
-//
-//            });
-//            queue.add(request);
-//
-        } catch (SecurityException e) {
-            finish();
-        }
     }
 
     private class SplashScreen extends AsyncTask<Void, Void, SharedPreferences> {
@@ -62,10 +37,46 @@ public class LogoActivity extends AppCompatActivity {
         protected void onPostExecute(SharedPreferences preferences) {
             int theme = preferences.getInt(Constants.DEFAULT_THEME, 0);
             int language = preferences.getInt(Constants.DEFAULT_LANGUAGE, 0);
+            int userId = preferences.getInt(Constants.USER_ID, 0);
+            if (userId == 0) {
+                userId = findUserAccount();
+            }
             Setting setting = new Setting(theme, language);
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constants.SETTINGS, setting);
+            bundle.putInt(Constants.USER_ID, userId);
             ActivityMenu.getInstance().switchActivity(LogoActivity.this, MapsActivity.class, bundle);
         }
+    }
+
+    private Integer findUserAccount() {
+        try {
+            List<Account> accounts = Arrays.asList(AccountManager.get(getApplicationContext()).getAccountsByType(Constants.ACCOUNT_TYPE));
+            if (accounts.isEmpty()) {
+                showDialog();
+            }
+        } catch (SecurityException e) {
+            finish();
+        }
+        // TODO: uncomment and set server response for userId
+//            RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+//            StringRequest request = new StringRequest(Request.Method.POST, null,
+//                    response -> {
+//                        bundle.putInt(Constants.USER_ID, GsonParser.getInstance().parseUserId(response));
+//                    },
+//                    error -> {
+//
+//            });
+//            queue.add(request);
+        return 0;
+    }
+
+    private void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Invalid email");
+        builder.setMessage("");
+        builder.setPositiveButton("Exit", (dialog, which) -> finish());
+        builder.setCancelable(false);
+        builder.show();
     }
 }

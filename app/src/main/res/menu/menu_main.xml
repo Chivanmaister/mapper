@@ -10,13 +10,17 @@
         app:showAsAction="collapseActionView" />
 
     <item android:title="@string/trackRoute"
-        android:id="@+id/history"
+        android:id="@+id/tracking"
         android:orderInCategory="2"
         app:showAsAction="collapseActionView" />
 
+    <item android:title="@string/history"
+        android:id="@+id/history"
+        android:orderInCategory="3"
+        app:showAsAction="collapseActionView" />
     <item
         android:id="@+id/settings"
-        android:orderInCategory="3"
+        android:orderInCategory="4"
         android:title="@string/action_settings"
         app:showAsAction="collapseActionView" />
 </menu>
