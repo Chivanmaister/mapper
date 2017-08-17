@@ -78,8 +78,6 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
     private void getBundle(Intent intent) {
         bundle = intent.getExtras();
         if (bundle != null && bundle.containsKey(Constants.LAT) && bundle.containsKey(Constants.LNG)) {
-            clearButton.setClickable(true);
-            clearButton.setVisibility(View.VISIBLE);
             String googleUrl = url + "origin=" + latLng.latitude + "," + latLng.longitude;
             googleUrl += "&destination=" + bundle.getDouble(Constants.LAT) + "," + bundle.getDouble(Constants.LNG);
             new AsyncDataTransfer().execute(googleUrl);
@@ -162,6 +160,10 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
         protected void onPostExecute(String result) {
             route = GsonParser.getInstance().parseRoute(result);
             createPolylineDirection(route);
+            if (route.getStatus().equalsIgnoreCase("ok")) {
+                clearButton.setClickable(true);
+                clearButton.setVisibility(View.VISIBLE);
+            }
             dialog.dismiss();
         }
     }

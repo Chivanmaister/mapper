@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 
@@ -68,12 +67,5 @@ public abstract class DefaultAppActivity extends AppCompatActivity {
         Setting setting = new Setting(preference.getInt(Constants.DEFAULT_THEME, 0), preference.getInt(Constants.DEFAULT_LANGUAGE, 0));
         setTheme(setting);
         setLanguage(setting);
-    }
-
-    public AlertDialog.Builder showDialog(String title, String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        return builder;
     }
 }
