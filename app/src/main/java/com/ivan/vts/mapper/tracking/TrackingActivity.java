@@ -1,21 +1,20 @@
 package com.ivan.vts.mapper.tracking;
 
+import android.app.AlertDialog;
+import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
-
 import com.ivan.vts.mapper.R;
 import com.ivan.vts.mapper.extended.Constants;
 import com.ivan.vts.mapper.extended.entities.Tracker;
 import com.ivan.vts.mapper.map.DefaultAppActivity;
 import com.ivan.vts.mapper.map.MapsActivity;
 import com.ivan.vts.mapper.settings.helper.ActivityMenu;
-
 import java.util.UUID;
 
 public class TrackingActivity extends DefaultAppActivity {
@@ -32,9 +31,10 @@ public class TrackingActivity extends DefaultAppActivity {
         polyline = (Switch) findViewById(R.id.polyline);
         routeName = (TextView) findViewById(R.id.routeTrackingName);
 
-
         Bundle bundle = getIntent().getExtras();
         setSwitchButtons(bundle);
+        routeName.setPaintFlags(routeName.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
         tracking.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -66,6 +66,7 @@ public class TrackingActivity extends DefaultAppActivity {
                     } else {
                         routeName.setText(input.getText().toString());
                     }
+
                 });
                 builder.setNegativeButton("Cancel", (dialog, which) -> {
                     dialog.cancel();
@@ -74,11 +75,14 @@ public class TrackingActivity extends DefaultAppActivity {
                 });
                 builder.setCancelable(false);
                 builder.show();
+            } else {
+                routeName.setText("");
             }
+            routeName.setClickable(isChecked);
         });
         Button save = (Button) findViewById(R.id.save);
         save.setOnClickListener(v -> {
-            Tracker tracker = new Tracker(polyline.isChecked(), tracking.isChecked(), null, routeName.getText().toString());
+            Tracker tracker = new Tracker(polyline.isChecked(), tracking.isChecked(), routeTrackerId, routeName.getText().toString(), null);
             bundle.putSerializable(Constants.ROUTE_TRACKER, tracker);
             ActivityMenu.getInstance().switchActivity(TrackingActivity.this, MapsActivity.class, bundle);
         });
@@ -97,6 +101,7 @@ public class TrackingActivity extends DefaultAppActivity {
                 tracking.setChecked(false);
             } else {
                 tracking.setChecked(track.getTrackerSelected());
+                routeName.setText(track.getTrackName());
             }
             if (track.getPolylineSelected()) {
                 polyline.setChecked(track.getPolylineSelected());
@@ -114,7 +119,7 @@ public class TrackingActivity extends DefaultAppActivity {
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
-        builder.setPositiveButton("OK", (dialog, which) -> {
+        builder.setPositiveButton(android.R.string.ok, (dialog, which) -> {
             routeName.setText(input.getText().toString());
         });
         builder.show();

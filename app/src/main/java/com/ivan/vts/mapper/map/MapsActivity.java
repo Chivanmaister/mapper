@@ -1,10 +1,10 @@
 package com.ivan.vts.mapper.map;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -189,5 +189,6 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
                     sendData = false;
                     MapsActivity.this.finish();
                 }).create().show();
+
     }
 }

@@ -23,6 +23,14 @@
     <string name="loadingRoute">Loading route, please wait</string>
     <string name="error">Error</string>
     <string name="somethingGoesWrong">Can\'t find route to destination</string>
+    <string name="searchTextView">Route history</string>
+    <string name="dateBetween">Search between start and end date</string>
+    <string name="dateStart">start date</string>
+    <string name="dateEnd">end date</string>
+    <string name="routeNameSearch">Search by name</string>
+    <string name="routeNameText">route name</string>
+    <string name="searchButtonText">Search</string>
+    <string name="resultText">Search result</string>
 
     <string-array name="languageList">
         <item>English</item>
