@@ -16,10 +16,6 @@ public class Setting implements Serializable {
         this.themeNo = themeNo;
     }
 
-    public Setting() {
-
-    }
-
     public void setLanguageNo(Integer languageNo) {
         this.languageNo = languageNo;
     }

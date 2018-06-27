@@ -1,6 +1,5 @@
 package com.ivan.vts.mapper;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.PolyUtil;
 import com.ivan.vts.mapper.extended.GsonParser;
 import com.ivan.vts.mapper.extended.Route;
@@ -365,21 +364,17 @@ public class ExampleUnitTest {
 
     @Test
     public void testJsonParser() throws Exception {
-        Route route = GsonParser.getInstance().parseRoute(json);
+        Route route = GsonParser.parseRoute(json);
         assertEquals("OK", route.getStatus());
         assertTrue(route.getStartLocation().size() > 0);
         assertTrue(route.getEndLocation().size() > 0);
         assertNotNull(route.getPoint());
-        System.out.print(route.getPoint());
     }
 
     @Test
     public void testDecodePolyline() throws Exception {
-        Route route = GsonParser.getInstance().parseRoute(json);
+        Route route = GsonParser.parseRoute(json);
         route.setPoints(PolyUtil.decode(route.getPoint()));
-        for (LatLng latLng : route.getPoints()) {
-            System.out.println(latLng.latitude + " " + latLng.longitude);
-        }
         assertNotNull(route.getPoint());
     }
 }

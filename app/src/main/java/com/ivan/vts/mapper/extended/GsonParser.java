@@ -13,17 +13,9 @@ import java.util.Map;
  */
 
 public class GsonParser {
-    private static GsonParser gsonParser = new GsonParser();
-
-    private GsonParser() {
-    }
-
-    public static GsonParser getInstance() {
-     return gsonParser;
-    }
 
     @SuppressWarnings("all")
-    public Route parseRoute(String json) {
+    public static Route parseRoute(String json) {
         Route route = new Route();
         List<LatLng> startList = new ArrayList<>();
         List<LatLng> endList = new ArrayList<>();
@@ -57,7 +49,7 @@ public class GsonParser {
     }
 
     @SuppressWarnings("unchecked")
-    public Integer parseUserId(String json) {
+    public static Integer parseUserId(String json) {
         Map<String, Object> jsonMap = new Gson().fromJson(json, Map.class);
         return (Integer) jsonMap.get("id");
     }

@@ -2,6 +2,7 @@ package com.ivan.vts.mapper.extended;
 
 import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -10,18 +11,10 @@ import java.util.List;
 
 public class Route {
     private String status;
-    private List<LatLng> endLocation;
-    private List<LatLng> startLocation;
+    private List<LatLng> endLocation = new LinkedList<>();
+    private List<LatLng> startLocation = new LinkedList<>();
     private String point;
-    private List<LatLng> points;
-
-    public Route() {
-        status = "";
-        endLocation = new ArrayList<>();
-        startLocation = new ArrayList<>();
-        point = "";
-        points = new ArrayList<>();
-    }
+    private List<LatLng> points = new LinkedList<>();
 
     public List<LatLng> getEndLocation() {
         return endLocation;

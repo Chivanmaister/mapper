@@ -34,6 +34,7 @@ public class DefaultGoogleApiClient extends DefaultAppListener implements Google
         try {
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         } catch (SecurityException e) {
+            System.out.print("error");
         }
 
         if (mLastLocation != null) {
@@ -51,6 +52,7 @@ public class DefaultGoogleApiClient extends DefaultAppListener implements Google
         try {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         } catch (SecurityException e) {
+            System.out.print("error");
         }
     }
 

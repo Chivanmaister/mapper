@@ -19,7 +19,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.ivan.vts.mapper.R;
 import com.ivan.vts.mapper.extended.Constants;
-import com.ivan.vts.mapper.extended.GsonParser;
 import com.ivan.vts.mapper.extended.entities.Setting;
 import com.ivan.vts.mapper.settings.helper.ActivityMenu;
 
@@ -31,6 +30,8 @@ import java.io.InputStream;
 import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import static com.ivan.vts.mapper.extended.GsonParser.parseRoute;
 
 public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCallback, View.OnClickListener {
 
@@ -90,7 +91,7 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
         setMapStyle();
         try {
             mGoogleMap.setMyLocationEnabled(true);
-        } catch (SecurityException e) {
+        } catch (SecurityException ignored) {
         }
 
         buildGoogleApiClient();
@@ -158,7 +159,7 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
 
         @Override
         protected void onPostExecute(String result) {
-            route = GsonParser.getInstance().parseRoute(result);
+            route = parseRoute(result);
             createPolylineDirection(route);
             if (route.getStatus().equalsIgnoreCase("ok")) {
                 clearButton.setClickable(true);

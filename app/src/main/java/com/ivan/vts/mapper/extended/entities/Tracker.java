@@ -15,10 +15,6 @@ public class Tracker implements Serializable {
     private String trackName;
     private Date trackDate;
 
-    public Tracker() {
-
-    }
-
     public Tracker(Boolean polylineSelected, Boolean trackerSelected, Integer trackId, String trackName, Date trackDate) {
         this.polylineSelected = polylineSelected;
         this.trackerSelected = trackerSelected;
