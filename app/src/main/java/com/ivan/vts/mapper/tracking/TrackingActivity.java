@@ -9,12 +9,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+
 import com.ivan.vts.mapper.R;
 import com.ivan.vts.mapper.extended.Constants;
 import com.ivan.vts.mapper.extended.entities.Tracker;
 import com.ivan.vts.mapper.map.DefaultAppActivity;
 import com.ivan.vts.mapper.map.MapsActivity;
 import com.ivan.vts.mapper.settings.helper.ActivityMenu;
+
 import java.util.UUID;
 
 public class TrackingActivity extends DefaultAppActivity {
@@ -23,6 +25,7 @@ public class TrackingActivity extends DefaultAppActivity {
     TextView routeName;
     Integer routeTrackerId;
 
+    @SuppressWarnings("all")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,23 +49,22 @@ public class TrackingActivity extends DefaultAppActivity {
                 builder.setPositiveButton(android.R.string.ok, (dialog, which) -> {
 
                     //TODO uncomment and set server response for trackerId
-        //        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        //        StringRequest request = new StringRequest(Request.Method.POST, mapperUrl, new Response.Listener<String>() {
-        //            @Override
-        //            public void onResponse(String response) {
-        //                route = GsonParser.getInstance().parseRoute(response);
-        //            }
-        //        }, new Response.ErrorListener() {
-        //            @Override
-        //            public void onErrorResponse(VolleyError error) {
-        //                Toast.makeText(getApplicationContext(), "Unable to connect to Mapper server", Toast.LENGTH_SHORT).show();
-        //            }
-        //        });
-        //        queue.add(request)
+                    //        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                    //        StringRequest request = new StringRequest(Request.Method.POST, mapperUrl, new Response.Listener<String>() {
+                    //            @Override
+                    //            public void onResponse(String response) {
+                    //                route = GsonParser.getInstance().parseRoute(response);
+                    //            }
+                    //        }, new Response.ErrorListener() {
+                    //            @Override
+                    //            public void onErrorResponse(VolleyError error) {
+                    //                Toast.makeText(getApplicationContext(), "Unable to connect to Mapper server", Toast.LENGTH_SHORT).show();
+                    //            }
+                    //        });
+                    //        queue.add(request)
                     String inputName = input.getText().toString();
-                    if (inputName == null || inputName.isEmpty()) {
-//                        TODO: generate random 7-10 chararcters as route name
-                        routeName.setText(UUID.randomUUID().toString());
+                    if (inputName.isEmpty()) {
+                        routeName.setText(UUID.randomUUID().toString().substring(0, 8));
                     } else {
                         routeName.setText(input.getText().toString());
                     }
@@ -95,8 +97,7 @@ public class TrackingActivity extends DefaultAppActivity {
             polyline.setChecked(false);
             routeTrackerId = null;
             routeName.setText("");
-        }
-        else {
+        } else {
             if (!track.getTrackerSelected()) {
                 tracking.setChecked(false);
             } else {
@@ -114,7 +115,7 @@ public class TrackingActivity extends DefaultAppActivity {
 
     public void editTrackName(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Edit title");
+        builder.setTitle(R.string.editTrackTitle);
         builder.setMessage(R.string.editTrackingName);
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);

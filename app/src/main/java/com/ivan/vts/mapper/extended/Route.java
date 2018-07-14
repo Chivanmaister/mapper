@@ -1,7 +1,6 @@
 package com.ivan.vts.mapper.extended;
 
 import com.google.android.gms.maps.model.LatLng;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

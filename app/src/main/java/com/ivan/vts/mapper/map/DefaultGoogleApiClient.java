@@ -19,6 +19,7 @@ import com.ivan.vts.mapper.extended.Route;
  * Created by Chiefster on 3/4/2017.
  */
 
+@SuppressWarnings("all")
 public class DefaultGoogleApiClient extends DefaultAppListener implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     protected   LocationRequest mLocationRequest;

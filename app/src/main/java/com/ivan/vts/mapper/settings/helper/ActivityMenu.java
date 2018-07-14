@@ -12,6 +12,9 @@ import com.ivan.vts.mapper.navigation.NavigationActivity;
 import com.ivan.vts.mapper.settings.SettingActivity;
 import com.ivan.vts.mapper.tracking.TrackingActivity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author Ivan Marovic
@@ -22,7 +25,14 @@ import com.ivan.vts.mapper.tracking.TrackingActivity;
 public class ActivityMenu {
 
     private static ActivityMenu activityMenu = new ActivityMenu();
-    private Intent intent = null;
+    private Map<Integer, Class> activityMap = new HashMap<Integer, Class>() {
+        {
+            put(R.id.settings, SettingActivity.class);
+            put(R.id.navigation, NavigationActivity.class);
+            put(R.id.history, HistoryActivity.class);
+            put(R.id.tracking, TrackingActivity.class);
+        }
+    };
 
     private ActivityMenu() {
     }
@@ -31,36 +41,19 @@ public class ActivityMenu {
         return activityMenu;
     }
 
+    @SuppressWarnings("unchecked")
     public boolean switchActivity(Activity activityFrom, MenuItem menuItem, Bundle bundle) {
-        int id = menuItem.getItemId();
-
-        if (id == R.id.settings) {
-            switchActivity(activityFrom, SettingActivity.class, bundle);
-        }
-        if (id == R.id.navigation) {
-            switchActivity(activityFrom, NavigationActivity.class, bundle);
-        }
-        if (id == R.id.history) {
-            switchActivity(activityFrom, HistoryActivity.class, bundle);
-        }
-        if (id == R.id.tracking) {
-            switchActivity(activityFrom, TrackingActivity.class, bundle);
-        }
+        Integer id = menuItem.getItemId();
+        switchActivity(activityFrom, activityMap.get(id), bundle);
         return false;
     }
 
-    public <T> void switchActivity(Activity activityFrom, Class<T> targetClass) {
-        intent = new Intent(activityFrom, targetClass);
-        activityFrom.startActivity(intent);
-    }
-
     public <T> void switchActivity(Activity activityFrom, Class<T> targetClass, Bundle bundle) {
-        intent = new Intent(activityFrom, targetClass);
+        Intent intent = new Intent(activityFrom, targetClass);
         intent.putExtras(bundle);
         activityFrom.startActivity(intent);
         if (targetClass == MapsActivity.class) {
             activityFrom.finish();
         }
     }
-
 }

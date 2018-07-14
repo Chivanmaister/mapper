@@ -31,6 +31,7 @@
     <string name="routeNameText">route name</string>
     <string name="searchButtonText">Search</string>
     <string name="resultText">Search result</string>
+    <string name="editTrackTitle">Edit title</string>
 
     <string-array name="languageList">
         <item>English</item>

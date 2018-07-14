@@ -29,23 +29,22 @@ public class LogoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
+    @SuppressWarnings("all")
     private class SplashScreen extends AsyncTask<Void, Void, SharedPreferences> {
 
         @Override
         protected SharedPreferences doInBackground(Void... params) {
-            SharedPreferences preferences;
-            preferences = getSharedPreferences(Constants.APP_NAME, MODE_PRIVATE);
-            return preferences;
+            return getSharedPreferences(Constants.APP_NAME, MODE_PRIVATE);
         }
 
         @Override
         protected void onPostExecute(SharedPreferences preferences) {
-            int theme = preferences.getInt(Constants.DEFAULT_THEME, 0);
-            int language = preferences.getInt(Constants.DEFAULT_LANGUAGE, 0);
-            int userId = preferences.getInt(Constants.USER_ID, 0);
+            Integer theme = preferences.getInt(Constants.DEFAULT_THEME, 0);
+            Integer language = preferences.getInt(Constants.DEFAULT_LANGUAGE, 0);
+            Integer userId = preferences.getInt(Constants.USER_ID, 0);
             Bundle bundle = new Bundle();
             if (userId == 0) {
-//                findUserAccount(bundle);
+                mockFindUserAccount(bundle);
             }
             Setting setting = new Setting(theme, language);
             bundle.putSerializable(Constants.SETTINGS, setting);
@@ -58,35 +57,35 @@ public class LogoActivity extends AppCompatActivity {
         try {
             List<Account> accounts = Arrays.asList(AccountManager.get(getApplicationContext()).getAccountsByType(Constants.ACCOUNT_TYPE));
             if (accounts.isEmpty()) {
-                showDialog();
+                showExitDialog();
             }
         } catch (SecurityException e) {
             finish();
         }
         final Integer[] userId = new Integer[1];
         RequestQueue findUserQueue = Volley.newRequestQueue(getApplicationContext());
-        StringRequest findUserRequest = new StringRequest(Request.Method.POST, null,
-                findUserResponse -> {
-                    userId[0] = GsonParser.parseUserId(findUserResponse);
-                },
+        StringRequest findUserRequest = new StringRequest(Request.Method.GET, null,
+                findUserResponse -> userId[0] = GsonParser.parseUserId(findUserResponse),
                 error -> {
-
                 });
         findUserQueue.add(findUserRequest);
         if (userId[0] == null) {
             RequestQueue addUserQueue = Volley.newRequestQueue(getApplicationContext());
-            StringRequest addUserRequest = new StringRequest(Request.Method.GET, null, addUserResponse -> {
-                bundle.putInt(Constants.USER_ID, GsonParser.parseUserId(addUserResponse));
-            }, error -> {
-
-            });
+            StringRequest addUserRequest = new StringRequest(Request.Method.POST, null,
+                    addUserResponse -> bundle.putInt(Constants.USER_ID, GsonParser.parseUserId(addUserResponse)),
+                    error -> {
+                    });
             addUserQueue.add(addUserRequest);
         } else {
             bundle.putInt(Constants.USER_ID, userId[0]);
         }
     }
 
-    private void showDialog() {
+    private void mockFindUserAccount(Bundle bundle) {
+        bundle.putInt(Constants.USER_ID, 10001);
+    }
+
+    private void showExitDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Invalid email");
         builder.setMessage("");
