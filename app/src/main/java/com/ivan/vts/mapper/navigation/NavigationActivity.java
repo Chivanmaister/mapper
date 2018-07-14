@@ -40,7 +40,7 @@ public class NavigationActivity extends DefaultAppActivity {
         });
         navigateButton.setOnClickListener(v -> {
             if (latLng != null) {
-                Bundle bundle = new Bundle();
+//                Bundle bundle = new Bundle();
                 bundle.putAll(getIntent().getExtras());
                 bundle.putDouble(Constants.LAT, latLng.latitude);
                 bundle.putDouble(Constants.LNG, latLng.longitude);

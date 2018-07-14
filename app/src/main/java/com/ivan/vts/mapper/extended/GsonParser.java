@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.maps.android.PolyUtil;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ import java.util.Map;
 
 public class GsonParser {
 
-    @SuppressWarnings("all")
+    @SuppressWarnings("unchecked")
     public static Route parseRoute(String json) {
         Route route = new Route();
         List<LatLng> startList = new ArrayList<>();
@@ -49,14 +50,26 @@ public class GsonParser {
     }
 
     @SuppressWarnings("unchecked")
+    public static List<LatLng> parseTrackers(String json) {
+        List<LatLng> coordinateList = new LinkedList<>();
+        List<Map<String, Object>> mapList = new Gson().fromJson(json, List.class);
+        for (Map<String, Object> map : mapList) {
+            Double latitude = (Double) map.get("latitude");
+            Double longitude = (Double) map.get("longitude");
+            LatLng latLng = new LatLng(latitude, longitude);
+            coordinateList.add(latLng);
+        }
+        return coordinateList;
+    }
+
+    @SuppressWarnings("unchecked")
     public static Integer parseUserId(String json) {
         Map<String, Object> jsonMap = new Gson().fromJson(json, Map.class);
         return (Integer) jsonMap.get("id");
     }
 
     @SuppressWarnings("unchecked")
-    public Integer parseRouteId(String json) {
-        Map<String, Object> jsonMap = new Gson().fromJson(json, Map.class);
-        return (Integer) jsonMap.get("");
+    public static String toJson(Object o) {
+        return new Gson().toJson(o);
     }
 }

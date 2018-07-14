@@ -26,12 +26,10 @@ public class DefaultAppListener extends DefaultAppActivity implements LocationLi
     protected Route route;
     private static final String mapperUrl = "";
     protected static boolean sendData = true;
-    protected Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bundle = getIntent().getExtras();
     }
 
     @Override

@@ -6,7 +6,8 @@
     <string name="language">Jezik</string>
     <string name="saveSettings">Sacuvaj</string>
     <string name="start">Kreni</string>
-    <string name="clearMap">Obrisi</string>
+    <string name="clearRoute">Obrisi rutu</string>
+    <string name="clearTrack">Obrisi stazu</string>
 
     <string-array name="languageList">
         <item>Engleski</item>

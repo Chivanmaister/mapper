@@ -16,28 +16,32 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.ivan.vts.mapper.R;
 import com.ivan.vts.mapper.extended.Constants;
+import com.ivan.vts.mapper.extended.GsonParser;
 import com.ivan.vts.mapper.extended.entities.Setting;
 import com.ivan.vts.mapper.settings.helper.ActivityMenu;
 
 import org.apache.commons.io.IOUtils;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
 import static com.ivan.vts.mapper.extended.GsonParser.parseRoute;
 
-public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCallback, View.OnClickListener {
+public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCallback {
 
     protected SupportMapFragment mFragment;
     protected static String url = "https://maps.googleapis.com/maps/api/directions/json?";
-    private Button clearButton;
+    private Button clearRouteButton;
+    private Button clearTrackButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +53,28 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
         mFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mFragment.getMapAsync(this);
 
-        clearButton = (Button) findViewById(R.id.clear);
-        clearButton.setOnClickListener(this);
-        clearButton.setClickable(false);
-        clearButton.setVisibility(View.GONE);
+        clearRouteButton = (Button) findViewById(R.id.clearRoute);
+        clearTrackButton = (Button) findViewById(R.id.clearTrack);
+
+        clearRouteButton.setClickable(false);
+        clearRouteButton.setVisibility(View.GONE);
+        clearTrackButton.setClickable(false);
+        clearTrackButton.setVisibility(View.GONE);
+
+        clearRouteButton.setOnClickListener(view -> {
+            routePolyline.remove();
+            clearRouteButton.setClickable(false);
+            clearRouteButton.setVisibility(View.GONE);
+            bundle.remove(Constants.LAT);
+            bundle.remove(Constants.LNG);
+        });
+
+        clearTrackButton.setOnClickListener(view -> {
+            trackerPolyline.remove();
+            clearTrackButton.setClickable(false);
+            clearTrackButton.setVisibility(View.GONE);
+            bundle.remove(Constants.HISTORY);
+        });
     }
 
     @Override
@@ -60,6 +82,20 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
         super.onNewIntent(intent);
         getBundle(intent);
         setMapStyle();
+        clearRouteButton.setOnClickListener(view -> {
+            routePolyline.remove();
+            clearRouteButton.setClickable(false);
+            clearRouteButton.setVisibility(View.GONE);
+            bundle.remove(Constants.LAT);
+            bundle.remove(Constants.LNG);
+        });
+
+        clearTrackButton.setOnClickListener(view -> {
+            trackerPolyline.remove();
+            clearTrackButton.setClickable(false);
+            clearTrackButton.setVisibility(View.GONE);
+            bundle.remove(Constants.HISTORY);
+        });
     }
 
     @Override
@@ -78,10 +114,20 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
 
     private void getBundle(Intent intent) {
         bundle = intent.getExtras();
-        if (bundle != null && bundle.containsKey(Constants.LAT) && bundle.containsKey(Constants.LNG)) {
-            String googleUrl = url + "origin=" + latLng.latitude + "," + latLng.longitude;
-            googleUrl += "&destination=" + bundle.getDouble(Constants.LAT) + "," + bundle.getDouble(Constants.LNG);
-            new AsyncDataTransfer().execute(googleUrl);
+        if (bundle != null) {
+            if (bundle.containsKey(Constants.LAT) && bundle.containsKey(Constants.LNG)) {
+                String googleUrl = url + "origin=" + latLng.latitude + "," + latLng.longitude;
+                googleUrl += "&destination=" + bundle.getDouble(Constants.LAT) + "," + bundle.getDouble(Constants.LNG);
+                new AsyncDataTransfer().execute(googleUrl);
+                bundle.remove(Constants.LAT);
+                bundle.remove(Constants.LNG);
+            }
+            if (bundle.containsKey(Constants.HISTORY)) {
+                clearTrackButton.setVisibility(View.VISIBLE);
+                List<LatLng> latLngList = GsonParser.parseTrackers(bundle.getString(Constants.HISTORY));
+                trackerPolyline = mGoogleMap.addPolyline(new PolylineOptions().addAll(latLngList));
+                bundle.remove(Constants.HISTORY);
+            }
         }
     }
 
@@ -118,15 +164,7 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
         super.onStop();
     }
 
-    @Override
-    public void onClick(View v) {
-        polyline.remove();
-        clearButton.setClickable(false);
-        clearButton.setVisibility(View.GONE);
-        bundle.remove(Constants.LAT);
-        bundle.remove(Constants.LNG);
-    }
-
+    @SuppressWarnings("all")
     private class AsyncDataTransfer extends AsyncTask<String, Void, String> {
         ProgressDialog dialog;
 
@@ -142,19 +180,23 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
 
         @Override
         protected String doInBackground(String... params) {
+            InputStream inputStream = null;
+            String result = null;
             HttpsURLConnection connection = null;
             try {
                 URL url = new URL(params[0]);
                 connection = (HttpsURLConnection) url.openConnection();
-                InputStream inputStream = new BufferedInputStream(connection.getInputStream());
-                return IOUtils.toString(inputStream, "UTF-8");
+//                inputStream = new BufferedInputStream(connection.getInputStream());
+                inputStream = connection.getInputStream();
+                result = IOUtils.toString(inputStream, "UTF-8");
+                inputStream.close();
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
                 if (connection != null)
                     connection.disconnect();
             }
-            return null;
+            return result;
         }
 
         @Override
@@ -162,8 +204,8 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
             route = parseRoute(result);
             createPolylineDirection(route);
             if (route.getStatus().equalsIgnoreCase("ok")) {
-                clearButton.setClickable(true);
-                clearButton.setVisibility(View.VISIBLE);
+                clearRouteButton.setClickable(true);
+                clearRouteButton.setVisibility(View.VISIBLE);
             }
             dialog.dismiss();
         }

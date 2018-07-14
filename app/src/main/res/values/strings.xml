@@ -5,7 +5,8 @@
     <string name="action_settings">Setting</string>
     <string name="navigation">Navigation</string>
     <string name="trackRoute">Tracking</string>
-    <string name="clearMap">Clear map</string>
+    <string name="clearRoute">Clear route</string>
+    <string name="clearTrack">Clear track</string>
     <string name="language">Language</string>
     <string name="theme" translatable="false">Theme</string>
     <string name="defaultTheme" translatable="false">Default</string>

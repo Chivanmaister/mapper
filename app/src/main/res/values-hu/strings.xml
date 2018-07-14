@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_settings">a</string>
-    <string name="clearMap">b</string>
-    <string name="trackRoute">c</string>
-    <string name="language">d</string>
-    <string name="navigation">e</string>
-    <string name="saveSettings">f</string>
-    <string name="start">g</string>
+    <string name="clearRoute">b</string>
+    <string name="clearTrack">c</string>
+    <string name="trackRoute">d</string>
+    <string name="language">e</string>
+    <string name="navigation">f</string>
+    <string name="saveSettings">g</string>
+    <string name="start">h</string>
 
     <string-array name="languageList">
         <item>1</item>

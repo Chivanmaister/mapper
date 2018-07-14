@@ -24,4 +24,5 @@ public class Constants {
     public static final String ACCOUNT_TYPE = "com.google";
     public static final String ROUTE_TRACKER = "routeTracker";
     public static final String SETTINGS = "settings";
+    public static final String HISTORY = "history";
 }

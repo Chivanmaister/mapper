@@ -5,6 +5,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -22,11 +23,12 @@ import com.ivan.vts.mapper.extended.Route;
 @SuppressWarnings("all")
 public class DefaultGoogleApiClient extends DefaultAppListener implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    protected   LocationRequest mLocationRequest;
-    protected   GoogleApiClient mGoogleApiClient;
-    protected   Polyline        polyline;
-    protected   PolylineOptions rectOptions;
-    protected   Location        mLastLocation;
+    protected LocationRequest mLocationRequest;
+    protected GoogleApiClient mGoogleApiClient;
+    protected Polyline routePolyline;
+    protected Polyline trackerPolyline;
+    protected PolylineOptions rectOptions;
+    protected Location mLastLocation;
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -73,10 +75,7 @@ public class DefaultGoogleApiClient extends DefaultAppListener implements Google
             for (LatLng points : route.getPoints()) {
                 rectOptions.add(points);
             }
-
-            // Get back the mutable Polyline
-            mGoogleMap.clear();
-            polyline = mGoogleMap.addPolyline(rectOptions);
+            routePolyline = mGoogleMap.addPolyline(rectOptions);
         } else {
             new AlertDialog.Builder(DefaultGoogleApiClient.this)
                     .setTitle(R.string.error)

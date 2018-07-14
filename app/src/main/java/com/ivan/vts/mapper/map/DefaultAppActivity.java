@@ -22,11 +22,13 @@ public abstract class DefaultAppActivity extends AppCompatActivity {
 
     protected int themeNo;
     protected int languageNo;
+    protected Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setLanguageAndTheme();
         super.onCreate(savedInstanceState);
+        bundle = getIntent().getExtras();
     }
 
     private void setTheme(Setting setting) {
