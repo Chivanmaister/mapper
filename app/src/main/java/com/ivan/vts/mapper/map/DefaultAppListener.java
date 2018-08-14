@@ -2,6 +2,7 @@ package com.ivan.vts.mapper.map;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -40,7 +41,8 @@ public class DefaultAppListener extends DefaultAppActivity implements LocationLi
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
         //zoom to current position:
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(14).build();
+        CameraPosition cameraPosition = new CameraPosition.Builder().zoom(18).target(latLng).build();
+        Toast.makeText(this, String.valueOf(cameraPosition.zoom), Toast.LENGTH_SHORT).show();
 
         mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 

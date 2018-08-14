@@ -39,7 +39,7 @@ import static com.ivan.vts.mapper.extended.GsonParser.parseRoute;
 public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCallback {
 
     protected SupportMapFragment mFragment;
-    protected static String url = "https://maps.googleapis.com/maps/api/directions/json?";
+    protected static final String URL = "https://maps.googleapis.com/maps/api/directions/json?";
     private Button clearRouteButton;
     private Button clearTrackButton;
 
@@ -116,7 +116,7 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
         bundle = intent.getExtras();
         if (bundle != null) {
             if (bundle.containsKey(Constants.LAT) && bundle.containsKey(Constants.LNG)) {
-                String googleUrl = url + "origin=" + latLng.latitude + "," + latLng.longitude;
+                String googleUrl = URL + "origin=" + latLng.latitude + "," + latLng.longitude;
                 googleUrl += "&destination=" + bundle.getDouble(Constants.LAT) + "," + bundle.getDouble(Constants.LNG);
                 new AsyncDataTransfer().execute(googleUrl);
                 bundle.remove(Constants.LAT);
