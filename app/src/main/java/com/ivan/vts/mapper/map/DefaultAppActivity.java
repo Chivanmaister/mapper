@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.ivan.vts.mapper.R;
 import com.ivan.vts.mapper.extended.Constants;
 import com.ivan.vts.mapper.extended.entities.Setting;
@@ -15,7 +17,7 @@ import com.ivan.vts.mapper.extended.entities.Setting;
 import java.util.Locale;
 
 /**
- * Created by Chiefster on 4/5/2017.
+ * @author Ivan Marovic 4/5/2017.
  */
 
 public abstract class DefaultAppActivity extends AppCompatActivity {

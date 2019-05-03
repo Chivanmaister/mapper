@@ -7,6 +7,7 @@
     <string name="trackRoute">Tracking</string>
     <string name="clearRoute">Clear route</string>
     <string name="clearTrack">Clear track</string>
+    <!--<string name="clearHistory">Clear history</string>-->
     <string name="language">Language</string>
     <string name="theme" translatable="false">Theme</string>
     <string name="defaultTheme" translatable="false">Default</string>

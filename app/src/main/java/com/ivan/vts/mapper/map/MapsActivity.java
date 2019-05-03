@@ -229,7 +229,6 @@ public class MapsActivity extends DefaultGoogleApiClient implements OnMapReadyCa
                 .setMessage(R.string.exit_text)
                 .setNegativeButton(android.R.string.no, null)
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                    sendData = false;
                     MapsActivity.this.finish();
                 }).create().show();
 

@@ -2,18 +2,21 @@ package com.ivan.vts.mapper.map;
 
 import android.location.Location;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ivan.vts.mapper.extended.Constants;
+import com.ivan.vts.mapper.extended.GsonParser;
 import com.ivan.vts.mapper.extended.Route;
 import com.ivan.vts.mapper.extended.entities.Tracker;
+
+import java.util.List;
+
+import static com.ivan.vts.mapper.extended.Constants.HISTORY;
 
 /**
  * Created by Ivan Marovic on 2/4/2017.
@@ -21,12 +24,11 @@ import com.ivan.vts.mapper.extended.entities.Tracker;
 
 public class DefaultAppListener extends DefaultAppActivity implements LocationListener {
 
-    protected Marker currLocationMarker;
     protected static LatLng latLng;
     protected GoogleMap mGoogleMap;
     protected Route route;
     private static final String mapperUrl = "";
-    protected static boolean sendData = true;
+    protected static boolean animateCamera = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +37,21 @@ public class DefaultAppListener extends DefaultAppActivity implements LocationLi
 
     @Override
     public void onLocationChanged(Location location) {
-        if (currLocationMarker != null) {
-            currLocationMarker.remove();
-        }
+        CameraPosition cameraPosition = null;
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-        //zoom to current position:
-        CameraPosition cameraPosition = new CameraPosition.Builder().zoom(18).target(latLng).build();
-        Toast.makeText(this, String.valueOf(cameraPosition.zoom), Toast.LENGTH_SHORT).show();
+        if (bundle.getSerializable(HISTORY) != null) {
+            List<LatLng> history = GsonParser.parseTrackers(bundle.getString(HISTORY));
+            if (animateCamera)
+                cameraPosition = new CameraPosition.Builder().zoom(18).target(history.get(0)).build();
+            animateCamera = false;
+        } else {
+            cameraPosition = new CameraPosition.Builder().zoom(18).target(latLng).build();
+            animateCamera = true;
+        }
+        if (animateCamera)
+            mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-        mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         //TODO: uncomment and set sever to update user movement
 //        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());

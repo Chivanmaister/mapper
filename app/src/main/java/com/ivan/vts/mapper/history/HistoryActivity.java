@@ -54,9 +54,7 @@ public class HistoryActivity extends DefaultAppActivity {
         startDate.setOnClickListener(v -> new DatePickerDialog(HistoryActivity.this, startDatePicker, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show());
         endDate.setOnClickListener(v -> new DatePickerDialog(HistoryActivity.this, endDatePicker, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show());
 
-        searchButton.setOnClickListener(mock -> {
-            mockTable(tableLayout);
-        });
+        searchButton.setOnClickListener(mock -> mockTable(tableLayout));
     }
 
     private void setCalendar(Calendar calendar, int year, int month, int day) {
@@ -76,7 +74,7 @@ public class HistoryActivity extends DefaultAppActivity {
                 row.addView(view);
             }
             Button button = new Button(this);
-            button.setText("View");
+            button.setText("View history");
             button.setOnClickListener(v -> {
 //                Bundle bundle = new Bundle();
                 List<LatLng> coordinateList = new LinkedList<>();
